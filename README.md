@@ -1,2 +1,3 @@
 # Game-Project-Tetris
-Dit is voor tetris 
+Sven Wijnen-9091688
+Samuel Eikelenboom-2611872
