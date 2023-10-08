@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 /// <summary>
 /// A class for representing the Tetris playing grid.
@@ -8,15 +9,15 @@ class TetrisGrid
 {
     /// The sprite of a single empty cell in the grid.
     Texture2D emptyCell;
-
-    /// The position at which this TetrisGrid should be drawn.
     Vector2 position;
-
     /// The number of grid elements in the x-direction.
-    public int Width { get { return 10; } }
+    static public int Width { get { return 10; } }
    
     /// The number of grid elements in the y-direction.
-    public int Height { get { return 20; } }
+    static public int Height { get { return 20; } }
+	string[,] grid;
+
+	
 
     /// <summary>
     /// Creates a new TetrisGrid.
@@ -26,6 +27,14 @@ class TetrisGrid
     {
         emptyCell = TetrisGame.ContentManager.Load<Texture2D>("block");
         position = Vector2.Zero;
+		grid = new string[Height, Width];
+		for (int i = 0; i < Height; i++)
+		{
+			for (int j = 0; j < Width; j++)
+			{
+				grid[i, j] = "empty";
+			}
+		}
         Clear();
     }
 
@@ -36,6 +45,16 @@ class TetrisGrid
     /// <param name="spriteBatch">The SpriteBatch used for drawing sprites and text.</param>
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
     {
+		for (int i = 0;i < Height;i++)
+		{
+			for (int j = 0;j < Width; j++)
+			{
+				if (grid[i,j] == "empty")
+				{
+					spriteBatch.Draw(emptyCell, position, Color.White);
+				}
+			}
+		}
     }
 
     /// <summary>
