@@ -49,8 +49,9 @@ class TetrisGrid
 		{
 			for (int j = 0;j < Width; j++)
 			{
-				if (grid[i,j] == "empty")
+				if (grid[i, j] == "empty")
 				{
+					position = new Vector2(j*emptyCell.Width, i*emptyCell.Height);
 					spriteBatch.Draw(emptyCell, position, Color.White);
 				}
 			}
