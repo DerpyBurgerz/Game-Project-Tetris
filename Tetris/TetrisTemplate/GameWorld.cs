@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using TetrisTemplate;
 
 /// <summary>
 /// A class for representing the game world.
@@ -16,6 +17,8 @@ class GameWorld
         Playing,
         GameOver
     }
+
+    bool newBlock;
 
     /// <summary>
     /// The random-number generator of the game.
@@ -37,9 +40,11 @@ class GameWorld
     /// The main grid of the game.
     /// </summary>
     TetrisGrid grid;
+    Tetrominoes blocks;
 
     public GameWorld()
     {
+        newBlock = true;
         random = new Random();
         gameState = GameState.Playing;
 
@@ -50,17 +55,23 @@ class GameWorld
 
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
     {
+        
     }
 
     public void Update(GameTime gameTime)
     {
+
+        if (newBlock)
+        {
+            
+        }
     }
 
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
     {
         spriteBatch.Begin();
         grid.Draw(gameTime, spriteBatch);
-        spriteBatch.DrawString(font, "Hello!", Vector2.Zero, Color.Blue);
+        //spriteBatch.DrawString(font, "Hello!", Vector2.Zero, Color.Blue);
         spriteBatch.End();
     }
 

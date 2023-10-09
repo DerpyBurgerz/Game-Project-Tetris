@@ -7,17 +7,16 @@ using System.Threading.Tasks;
 
 namespace TetrisTemplate.Blocks
 {
-	internal class I : Tetrominos
+	internal class Z : Tetrominoes
 	{
 		bool[,] Tetromino;
-		I()
+		Z()
 		{
 			bool[,] Tetromino = 
 			{
-				{false, true, false, false },
-				{false, true, false, false },
-				{false, true, false, false },
-				{false, true, false, false },
+				{true, true, false},
+				{false, true, true},
+				{false, false, false},
 			};
 		}
 	}
