@@ -1,10 +1,10 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 class J : Tetrominoes
 {
 	bool[,] Tetromino;
 	J()
+		:base(Color.DarkBlue)
 	{
 		bool[,] Tetromino = 
 		{

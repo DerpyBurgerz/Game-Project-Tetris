@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using Microsoft.Xna.Framework;
 class S : Tetrominoes
 {
 	bool[,] Tetromino;
 	S()
+		:base(Color.Green)
 	{
 		bool[,] Tetromino = 
 		{

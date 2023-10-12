@@ -3,8 +3,10 @@
 class Tetrominoes
 	{
 		Vector2 position;
-		public Tetrominoes()
+		Color color;
+		public Tetrominoes(Color color)
 		{
+			this.color = color;
 		}
 
 	}
