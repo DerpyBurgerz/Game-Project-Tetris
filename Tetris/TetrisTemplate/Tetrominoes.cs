@@ -1,16 +1,11 @@
-﻿
+﻿using Microsoft.Xna.Framework;
 
-using System.Numerics;
-
-namespace TetrisTemplate
-{
-	internal class Tetrominoes
+class Tetrominoes
 	{
 		Vector2 position;
 		public Tetrominoes()
 		{
-			
 		}
 
 	}
-}
+

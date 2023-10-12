@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using TetrisTemplate;
+//using TetrisTemplate;
 
 /// <summary>
 /// A class for representing the game world.
@@ -19,6 +19,8 @@ class GameWorld
     }
 
     bool newBlock;
+	Tetrominoes tetrominoe;
+	I I;
 
     /// <summary>
     /// The random-number generator of the game.
@@ -51,6 +53,8 @@ class GameWorld
         font = TetrisGame.ContentManager.Load<SpriteFont>("SpelFont");
 
         grid = new TetrisGrid();
+		I = new I();
+
     }
 
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
@@ -61,10 +65,6 @@ class GameWorld
     public void Update(GameTime gameTime)
     {
 
-        if (newBlock)
-        {
-            
-        }
     }
 
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)

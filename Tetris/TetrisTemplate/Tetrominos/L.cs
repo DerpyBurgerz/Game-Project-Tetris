@@ -5,20 +5,18 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TetrisTemplate.Blocks
+class L : Tetrominoes
 {
-	internal class L : Tetrominoes
+	bool[,] Tetromino;
+	L()
 	{
-		bool[,] Tetromino;
-		L()
+		bool[,] Tetromino = 
 		{
-			bool[,] Tetromino = 
-			{
-				{false, false, true},
-				{true, true, true},
-				{false, false, false},
+			{false, false, true},
+			{true, true, true},
+			{false, false, false},
 
-			};
-		}
+		};
 	}
 }
+
