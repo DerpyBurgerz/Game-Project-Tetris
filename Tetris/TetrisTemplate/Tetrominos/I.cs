@@ -11,5 +11,6 @@ class I : Tetrominoes
 			{false, false, false, false },
 			{false, false, false, false },
 		};
+		Width = 4;
 	}	
 }
