@@ -20,7 +20,6 @@ class GameWorld
 
     bool newBlock;
 	Tetrominoes tetrominoe;
-	I I;
 
     /// <summary>
     /// The random-number generator of the game.
@@ -53,9 +52,9 @@ class GameWorld
         font = TetrisGame.ContentManager.Load<SpriteFont>("SpelFont");
 
         grid = new TetrisGrid();
-		I = new I();
-
-    }
+		tetrominoe = new I();
+		
+	}
 
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
     {

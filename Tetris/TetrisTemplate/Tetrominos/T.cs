@@ -2,7 +2,6 @@
 
 class T : Tetrominoes
 {
-	bool[,] Tetromino;
 	T()
 		:base(Color.Magenta)
 	{

@@ -2,7 +2,6 @@
 
 class O : Tetrominoes
 {
-	bool[,] Tetromino;
 	O()
 		:base(Color.Yellow)
 	{

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 class I : Tetrominoes
 {
-	bool[,] Tetromino;
 	public I()
 		:base(Color.LightBlue)
 	{

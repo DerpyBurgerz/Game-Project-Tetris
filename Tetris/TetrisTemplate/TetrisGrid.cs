@@ -15,7 +15,7 @@ class TetrisGrid
    
     /// The number of grid elements in the y-direction.
     static public int Height { get { return 20; } }
-	string[,] grid;
+	public string[,] grid;
 
 	
 
