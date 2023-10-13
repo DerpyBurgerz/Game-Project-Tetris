@@ -1,11 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 
-class L : Tetrominoes
+class L : Tetromino
 {
 	public L()
 		:base(Color.Orange)
 	{
-		Tetromino = new bool[,]
+		tetromino = new bool[,]
 		{
 			{false, false, true},
 			{true, true, true},
