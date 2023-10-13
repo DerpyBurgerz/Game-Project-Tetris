@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 //using TetrisTemplate;
 
@@ -58,11 +59,26 @@ class GameWorld
 
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
     {
-        
+        if (inputHelper.KeyPressed(Keys.A))
+        {
+            tetromino.Collision(grid.grid, -1, 0);
+            //horizontalIndex = horizontalIndex - 1;
+        }
+
+        if (inputHelper.KeyPressed(Keys.D))
+        {
+            //horizontalIndex = horizontalIndex + 1;
+        }
+
+        if (inputHelper.KeyPressed(Keys.S))
+        {
+            //verticalIndex = verticalIndex + 1;
+        }
     }
 
     public void Update(GameTime gameTime)
     {
+
 
     }
 
