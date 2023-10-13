@@ -8,6 +8,9 @@ class Tetromino
 	Texture2D cell;
 	Color color;
 	public bool[,] tetromino;
+
+	int horizontalIndex;
+	int verticalIndex;
 	public Tetromino(Color color)
 	{
 		this.color = color;
@@ -17,11 +20,12 @@ class Tetromino
 	{
 
 	}
-	public void collision(string[,] grid)
-	{
-
-	}
-	public void reset()
+    public void Collision(Color[,] grid, int x, int y)
+    {
+        verticalIndex += y;
+        horizontalIndex = horizontalIndex + x;
+    }
+    public void reset()
 	{
 
 	}
