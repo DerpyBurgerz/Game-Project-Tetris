@@ -28,7 +28,7 @@ class TetrisGrid
         emptyCell = TetrisGame.ContentManager.Load<Texture2D>("block");
         position = Vector2.Zero;
 		grid = new Color[Height, Width];
-        reset();
+        Reset();
         Clear();
     }
 
@@ -38,7 +38,7 @@ class TetrisGrid
     /// <param name="gameTime">An object with information about the time that has passed in the game.</param>
     /// <param name="spriteBatch">The SpriteBatch used for drawing sprites and text.</param>
     
-    public void reset()
+    public void Reset()
     {
 		for (int i = 0; i < Height; i++)
 		{
@@ -48,6 +48,19 @@ class TetrisGrid
 			}
 		}
 	}
+    public void Add(Color color, Vector2 positionBlock, bool[,] tetromino)
+    {
+        for (int i=0; i < tetromino.GetLength(0); i++) 
+        { 
+            for (int j=0; j< tetromino.GetLength(0); j++)
+            {
+                if (tetromino[i, j])
+                {
+                    grid[j+(int)positionBlock.X, i+(int)positionBlock.Y] = color;
+                }
+            }
+        }
+    }
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
     {
 		for (int i = 0;i < Height;i++)

@@ -61,22 +61,22 @@ class GameWorld
 
     public void Update(GameTime gameTime)
     {
-
+        grid.Add(tetromino.Color, new Vector2(5, 4), tetromino.Block);
     }
 
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
     {
         spriteBatch.Begin();
         grid.Draw(gameTime, spriteBatch);
-		tetromino.draw(spriteBatch);
+		//tetromino.Draw(spriteBatch);
         //spriteBatch.DrawString(font, "Hello!", Vector2.Zero, Color.Blue);
         spriteBatch.End();
     }
 
     public void Reset()
     {
-        tetromino.reset();
-        grid.reset();
+        tetromino.Reset();
+        grid.Reset();
     }
 
 }

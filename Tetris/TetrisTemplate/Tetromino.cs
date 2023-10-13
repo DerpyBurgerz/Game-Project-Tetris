@@ -17,15 +17,15 @@ class Tetromino
 	{
 
 	}
-	public void collision(string[,] grid)
+	public void Collision(string[,] grid)
 	{
 
 	}
-	public void reset()
+	public void Reset()
 	{
 
 	}
-	public void draw(SpriteBatch spriteBatch)
+	public void Draw(SpriteBatch spriteBatch)
 	{
 		for (int i = 0; i < tetromino.GetLength(0); i++)
 		{
@@ -39,5 +39,7 @@ class Tetromino
 			}
 		}
 	}
+	public Color Color { get { return color; } }
+	public bool[,] Block {  get { return tetromino; } }
 }
 
