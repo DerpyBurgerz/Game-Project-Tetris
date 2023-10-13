@@ -60,20 +60,19 @@ class GameWorld
         if (inputHelper.KeyPressed(Keys.A))
         {
             tetromino.Collision(grid.grid, -1, 0);
-            //horizontalIndex = horizontalIndex - 1;
         }
-
         if (inputHelper.KeyPressed(Keys.D))
         {
             tetromino.Collision(grid.grid, 1, 0);
-            //horizontalIndex = horizontalIndex + 1;
         }
-
         if (inputHelper.KeyPressed(Keys.S))
         {
             tetromino.Collision(grid.grid, 0, 1);
-            //verticalIndex = verticalIndex + 1;
         }
+		if (inputHelper.KeyPressed(Keys.W))
+		{
+			tetromino.Collision(grid.grid, 0, -1);
+		}
     }
 
     public void Update(GameTime gameTime)
