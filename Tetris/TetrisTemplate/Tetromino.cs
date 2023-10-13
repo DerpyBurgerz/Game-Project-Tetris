@@ -8,12 +8,15 @@ class Tetromino
 	Texture2D cell;
 	Color color;
 	public bool[,] tetromino;
+
+	int horizontalIndex;
+	int verticalIndex;
 	public Tetromino(Color color)
 	{
 		this.color = color;
 		cell = TetrisGame.ContentManager.Load<Texture2D>("block");
 	}
-	public void Input()
+	public void Input(InputHelper inputhelper)
 	{
 
 	}
@@ -21,6 +24,11 @@ class Tetromino
 	{
 
 	}
+    public void Collision(Color[,] grid, int x, int y)
+    {
+        verticalIndex += y;
+        horizontalIndex += x;
+    }
 	public void Reset()
 	{
 
@@ -33,7 +41,7 @@ class Tetromino
 			{
 				if (tetromino[i, j] == true)
 				{
-					position = new Vector2((j+1) * cell.Width, (i+0) * cell.Height);
+					position = new Vector2((j+horizontalIndex) * cell.Width, (i+verticalIndex) * cell.Height);
 					spriteBatch.Draw(cell, position, this.color);
 				}
 			}

@@ -57,6 +57,22 @@ class GameWorld
 
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
     {
+        if (inputHelper.KeyPressed(Keys.A))
+        {
+            tetromino.Collision(grid.grid, -1, 0);
+        }
+        if (inputHelper.KeyPressed(Keys.D))
+        {
+            tetromino.Collision(grid.grid, 1, 0);
+        }
+        if (inputHelper.KeyPressed(Keys.S))
+        {
+            tetromino.Collision(grid.grid, 0, 1);
+        }
+		if (inputHelper.KeyPressed(Keys.W))
+		{
+			tetromino.Collision(grid.grid, 0, -1);
+		}
     }
 
     public void Update(GameTime gameTime)
