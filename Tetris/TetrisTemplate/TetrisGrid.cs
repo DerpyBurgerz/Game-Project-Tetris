@@ -15,7 +15,7 @@ class TetrisGrid
    
     /// The number of grid elements in the y-direction.
     static public int Height { get { return 20; } }
-	public string[,] grid;
+	public Color[,] grid;
 
 	
 
@@ -27,12 +27,12 @@ class TetrisGrid
     {
         emptyCell = TetrisGame.ContentManager.Load<Texture2D>("block");
         position = Vector2.Zero;
-		grid = new string[Height, Width];
+		grid = new Color[Height, Width];
 		for (int i = 0; i < Height; i++)
 		{
 			for (int j = 0; j < Width; j++)
 			{
-				grid[i, j] = "empty";
+				grid[i, j] = Color.White;
 			}
 		}
         Clear();
@@ -49,11 +49,8 @@ class TetrisGrid
 		{
 			for (int j = 0;j < Width; j++)
 			{
-				if (grid[i, j] == "empty")
-				{
-					position = new Vector2(j*emptyCell.Width, i*emptyCell.Height);
-					spriteBatch.Draw(emptyCell, position, Color.White);
-				}
+				position = new Vector2(j*emptyCell.Width, i*emptyCell.Height);
+				spriteBatch.Draw(emptyCell, position, grid[i,j]);
 			}
 		}
     }
