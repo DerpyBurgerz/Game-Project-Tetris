@@ -2,13 +2,13 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
-class Tetrominoes
+class Tetromino
 {
 	Vector2 position;
 	Texture2D cell;
 	Color color;
-	public bool[,] Tetromino;
-	public Tetrominoes(Color color)
+	public bool[,] tetromino;
+	public Tetromino(Color color)
 	{
 		this.color = color;
 		cell = TetrisGame.ContentManager.Load<Texture2D>("block");
@@ -21,15 +21,19 @@ class Tetrominoes
 	{
 
 	}
+	public void reset()
+	{
+
+	}
 	public void draw(SpriteBatch spriteBatch)
 	{
-		for (int i = 0; i < Tetromino.GetLength(0); i++)
+		for (int i = 0; i < tetromino.GetLength(0); i++)
 		{
-			for (int j = 0; j < Tetromino.GetLength(0); j++)
+			for (int j = 0; j < tetromino.GetLength(0); j++)
 			{
-				if (Tetromino[i, j] == true)
+				if (tetromino[i, j] == true)
 				{
-					position = new Vector2(j * cell.Width, i * cell.Height);
+					position = new Vector2((j+1) * cell.Width, (i+0) * cell.Height);
 					spriteBatch.Draw(cell, position, this.color);
 				}
 			}

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 //using TetrisTemplate;
 
@@ -19,7 +20,7 @@ class GameWorld
     }
 
     bool newBlock;
-	Tetrominoes tetromino;
+	Tetromino tetromino;
 
     /// <summary>
     /// The random-number generator of the game.
@@ -51,14 +52,11 @@ class GameWorld
         font = TetrisGame.ContentManager.Load<SpriteFont>("SpelFont");
 
         grid = new TetrisGrid();
-        tetromino = new J();
-
-		
+        tetromino = new I();
 	}
 
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
     {
-        
     }
 
     public void Update(GameTime gameTime)
@@ -77,6 +75,8 @@ class GameWorld
 
     public void Reset()
     {
+        tetromino.reset();
+        grid.reset();
     }
 
 }
