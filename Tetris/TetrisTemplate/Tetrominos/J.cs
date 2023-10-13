@@ -2,7 +2,7 @@
 
 class J : Tetrominoes
 {
-	J()
+	public J()
 		:base(Color.DarkBlue)
 	{
 		Tetromino = new bool[,]

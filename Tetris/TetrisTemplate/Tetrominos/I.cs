@@ -13,7 +13,6 @@ class I : Tetrominoes
 			{false, false, false, false },
 			{false, false, false, false },
 		};
-		Width = 4;
 	}
 	public void draw(SpriteBatch spriteBatch)
 	{

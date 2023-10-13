@@ -8,7 +8,6 @@ class Tetrominoes
 	Texture2D cell;
 	Color color;
 	public bool[,] Tetromino;
-	public int Width;
 	public Tetrominoes(Color color)
 	{
 		this.color = color;
@@ -24,9 +23,9 @@ class Tetrominoes
 	}
 	public void draw(SpriteBatch spriteBatch)
 	{
-		for (int i = 0; i < Width; i++)
+		for (int i = 0; i < Tetromino.GetLength(0); i++)
 		{
-			for (int j = 0; j < Width; j++)
+			for (int j = 0; j < Tetromino.GetLength(0); j++)
 			{
 				if (Tetromino[i, j] == true)
 				{

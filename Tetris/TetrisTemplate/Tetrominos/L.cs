@@ -2,7 +2,7 @@
 
 class L : Tetrominoes
 {
-	L()
+	public L()
 		:base(Color.Orange)
 	{
 		Tetromino = new bool[,]

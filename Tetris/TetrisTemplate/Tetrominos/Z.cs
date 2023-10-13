@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 class Z : Tetrominoes
 {
-	Z()
+	public Z()
 		:base(Color.Red)
 	{
 		Tetromino = new bool[,]
