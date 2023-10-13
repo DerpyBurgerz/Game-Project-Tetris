@@ -5,7 +5,7 @@ class O : Tetrominoes
 	O()
 		:base(Color.Yellow)
 	{
-		bool[,] Tetromino = 
+		Tetromino = new bool[,]
 		{
 			{false, false, false, false },
 			{false, true, true, false },

@@ -28,7 +28,7 @@ class Tetrominoes
 		{
 			for (int j = 0; j < Width; j++)
 			{
-				if (true)//(Tetromino[i, j] == true)
+				if (Tetromino[i, j] == true)
 				{
 					position = new Vector2(j * cell.Width, i * cell.Height);
 					spriteBatch.Draw(cell, position, this.color);

@@ -5,7 +5,7 @@ class T : Tetrominoes
 	T()
 		:base(Color.Magenta)
 	{
-		bool[,] Tetromino = 
+		Tetromino = new bool[,]
 		{
 			{false, true, false},
 			{true, true, true},

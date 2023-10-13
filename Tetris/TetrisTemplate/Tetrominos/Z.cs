@@ -4,7 +4,7 @@ class Z : Tetrominoes
 	Z()
 		:base(Color.Red)
 	{
-		bool[,] Tetromino = 
+		Tetromino = new bool[,]
 		{
 			{true, true, false},
 			{false, true, true},

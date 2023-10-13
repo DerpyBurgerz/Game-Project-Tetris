@@ -1,10 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
 class I : Tetrominoes
 {
 	public I()
 		:base(Color.LightBlue)
 	{
-		bool[,] Tetromino = 
+		Tetromino = new bool[,]
 		{
 			{false, false, false, false },
 			{true, true, true, true },
@@ -12,5 +14,9 @@ class I : Tetrominoes
 			{false, false, false, false },
 		};
 		Width = 4;
-	}	
+	}
+	public void draw(SpriteBatch spriteBatch)
+	{
+		base.draw(spriteBatch);
+	}
 }
