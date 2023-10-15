@@ -20,14 +20,10 @@ class Tetromino
 	{
 
 	}
-	public void Collision(string[,] grid)
-	{
-
-	}
-    public void Collision(Color[,] grid, int x, int y)
+    public void Collision(Color[,] grid, Vector2 movement)
     {
-        verticalIndex += y;
-        horizontalIndex += x;
+        verticalIndex += (int)movement.Y;
+        horizontalIndex += (int)movement.X;
     }
 	public void Reset()
 	{

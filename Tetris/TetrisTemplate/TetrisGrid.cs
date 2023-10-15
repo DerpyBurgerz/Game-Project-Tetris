@@ -28,7 +28,6 @@ class TetrisGrid
         emptyCell = TetrisGame.ContentManager.Load<Texture2D>("block");
         position = Vector2.Zero;
 		grid = new Color[Height, Width];
-        Reset();
         Clear();
     }
 
@@ -40,13 +39,7 @@ class TetrisGrid
     
     public void Reset()
     {
-		for (int i = 0; i < Height; i++)
-		{
-			for (int j = 0; j < Width; j++)
-			{
-				grid[i, j] = Color.White;
-			}
-		}
+		
 	}
     public void Add(Color color, Vector2 positionBlock, bool[,] tetromino)
     {
@@ -78,6 +71,13 @@ class TetrisGrid
     /// </summary>
     public void Clear()
     {
-    }
+		for (int i = 0; i < Height; i++)
+		{
+			for (int j = 0; j < Width; j++)
+			{
+				grid[i, j] = Color.White;
+			}
+		}
+	}
 }
 

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 //using TetrisTemplate;
 
 /// <summary>
@@ -42,6 +43,7 @@ class GameWorld
     /// The main grid of the game.
     /// </summary>
     TetrisGrid grid;
+    IDictionary<Keys, Vector2> movement;
 
 	public GameWorld()
     {
@@ -53,11 +55,21 @@ class GameWorld
 
         grid = new TetrisGrid();
         tetromino = new I();
+        movement = new Dictionary<Keys, Vector2>()
+        {
+            {Keys.A, new Vector2(-1, 0) },
+            {Keys.D, new Vector2(1, 0) },
+            {Keys.S, new Vector2(0, 1) },
+            //{Keys.W, new Vector2(0, -1) },
+        };
 	}
 
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
     {
-        if (inputHelper.KeyPressed(Keys.A))
+        //
+        foreach (Keys key in movement.Keys)
+            if (inputHelper.KeyPressed(key)) tetromino.Collision(grid.grid, movement[key]);
+        /*if (inputHelper.KeyPressed(Keys.A))
         {
             tetromino.Collision(grid.grid, -1, 0);
         }
@@ -73,6 +85,7 @@ class GameWorld
 		{
 			tetromino.Collision(grid.grid, 0, -1);
 		}
+        */
     }
 
     public void Update(GameTime gameTime)
@@ -92,7 +105,7 @@ class GameWorld
     public void Reset()
     {
         tetromino.Reset();
-        grid.Reset();
+        grid.Clear();
     }
 
 }
