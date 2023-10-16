@@ -6,7 +6,7 @@ class I : Tetromino
 	public I()
 		:base(Color.LightBlue)
 	{
-		tetromino = new bool[,]
+		block = new bool[,]
 		{
 			{false, false, false, false },
 			{true, true, true, true },

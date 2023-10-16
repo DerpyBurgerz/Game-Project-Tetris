@@ -7,7 +7,7 @@ class Tetromino
 	Vector2 position;
 	Texture2D cell;
 	Color color;
-	public bool[,] tetromino;
+	public bool[,] block;
 
 	int horizontalIndex;
 	int verticalIndex;
@@ -22,28 +22,40 @@ class Tetromino
 	}
     public void Collision(Color[,] grid, Vector2 movement)
     {
-        verticalIndex += (int)movement.Y;
-        horizontalIndex += (int)movement.X;
-    }
+		for (int i = 0; i < block.GetLength(0); i++)
+		{
+			for (int j = 0; j < block.GetLength(0); j++)
+			{
+				if (grid[i+(int)movement.X+horizontalIndex, j+(int)movement.Y+verticalIndex] != Color.White)
+				{
+					break;
+				}
+			}
+		}
+		verticalIndex += (int)movement.Y;
+		horizontalIndex += (int)movement.X;
+	}
 	public void Reset()
 	{
 
 	}
 	public void Draw(SpriteBatch spriteBatch)
 	{
-		for (int i = 0; i < tetromino.GetLength(0); i++)
+		for (int i = 0; i < block.GetLength(0); i++)
 		{
-			for (int j = 0; j < tetromino.GetLength(0); j++)
+			for (int j = 0; j < block.GetLength(0); j++)
 			{
-				if (tetromino[i, j] == true)
+				if (block[i, j] == true)
 				{
-					position = new Vector2((j+horizontalIndex) * cell.Width, (i+verticalIndex) * cell.Height);
+					position = new Vector2((i+horizontalIndex) * cell.Width, (j+verticalIndex) * cell.Height);
 					spriteBatch.Draw(cell, position, this.color);
 				}
 			}
 		}
 	}
 	public Color Color { get { return color; } }
-	public bool[,] Block {  get { return tetromino; } }
+	public bool[,] Block {  get { return block; } }
+	public int VerticalIndex { get { return verticalIndex; } }
+	public int HorizontalIndex { get { return horizontalIndex; } }
 }
 

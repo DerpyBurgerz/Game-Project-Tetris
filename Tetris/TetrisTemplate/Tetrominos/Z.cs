@@ -4,7 +4,7 @@ class Z : Tetromino
 	public Z()
 		:base(Color.Red)
 	{
-		tetromino = new bool[,]
+		block = new bool[,]
 		{
 			{true, true, false},
 			{false, true, true},

@@ -27,7 +27,7 @@ class TetrisGrid
     {
         emptyCell = TetrisGame.ContentManager.Load<Texture2D>("block");
         position = Vector2.Zero;
-		grid = new Color[Height, Width];
+		grid = new Color[Width, Height];
         Clear();
     }
 
@@ -41,26 +41,26 @@ class TetrisGrid
     {
 		
 	}
-    public void Add(Color color, Vector2 positionBlock, bool[,] tetromino)
+    public void Add(Color color, int horizontalPosition, int verticalPosition, bool[,] tetromino)
     {
         for (int i=0; i < tetromino.GetLength(0); i++) 
         { 
             for (int j=0; j< tetromino.GetLength(0); j++)
             {
-                if (tetromino[i, j])
+                if (tetromino[j, i])
                 {
-                    grid[j+(int)positionBlock.X, i+(int)positionBlock.Y] = color;
+                    grid[i+horizontalPosition, j+verticalPosition] = color;
                 }
             }
         }
     }
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
     {
-		for (int i = 0;i < Height;i++)
+		for (int i = 0;i < Width;i++)
 		{
-			for (int j = 0;j < Width; j++)
+			for (int j = 0;j < Height; j++)
 			{
-				position = new Vector2(j*emptyCell.Width, i*emptyCell.Height);
+				position = new Vector2(i*emptyCell.Width, j*emptyCell.Height);
 				spriteBatch.Draw(emptyCell, position, grid[i,j]);
 			}
 		}
@@ -71,9 +71,9 @@ class TetrisGrid
     /// </summary>
     public void Clear()
     {
-		for (int i = 0; i < Height; i++)
+		for (int i = 0; i < Width; i++)
 		{
-			for (int j = 0; j < Width; j++)
+			for (int j = 0; j < Height; j++)
 			{
 				grid[i, j] = Color.White;
 			}

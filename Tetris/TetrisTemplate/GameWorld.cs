@@ -60,7 +60,7 @@ class GameWorld
             {Keys.A, new Vector2(-1, 0) },
             {Keys.D, new Vector2(1, 0) },
             {Keys.S, new Vector2(0, 1) },
-            //{Keys.W, new Vector2(0, -1) },
+            {Keys.W, new Vector2(0, -1) },
         };
 	}
 
@@ -69,6 +69,8 @@ class GameWorld
         foreach (Keys key in movement.Keys)
             if (inputHelper.KeyPressed(key)) 
                 tetromino.Collision(grid.grid, movement[key]);
+        if (inputHelper.KeyPressed(Keys.E))
+            grid.Add(tetromino.Color, tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block);
     }
 
     public void Update(GameTime gameTime)

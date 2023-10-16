@@ -5,7 +5,7 @@ class L : Tetromino
 	public L()
 		:base(Color.Orange)
 	{
-		tetromino = new bool[,]
+		block = new bool[,]
 		{
 			{false, false, true},
 			{true, true, true},
