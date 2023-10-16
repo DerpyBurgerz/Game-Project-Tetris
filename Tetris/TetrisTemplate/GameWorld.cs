@@ -68,7 +68,8 @@ class GameWorld
     {
         //
         foreach (Keys key in movement.Keys)
-            if (inputHelper.KeyPressed(key)) tetromino.Collision(grid.grid, movement[key]);
+            if (inputHelper.KeyPressed(key)) 
+                tetromino.Collision(grid.grid, movement[key]);
         /*if (inputHelper.KeyPressed(Keys.A))
         {
             tetromino.Collision(grid.grid, -1, 0);
