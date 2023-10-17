@@ -17,10 +17,10 @@ class GameWorld
     enum GameState
     {
         Playing,
-        GameOver
+        GameOver,
+        Startup
     }
 
-    bool newBlock;
 	Tetromino tetromino;
 
     /// <summary>
@@ -47,7 +47,6 @@ class GameWorld
 
 	public GameWorld()
     {
-        newBlock = true;
         random = new Random();
         gameState = GameState.Playing;
 
@@ -55,6 +54,8 @@ class GameWorld
 
         grid = new TetrisGrid();
         tetromino = new I();
+        gameState = GameState.Startup;
+        //In deze dictionary staan de toetsen die je in kan drukken voor de beweging van de tetromino's, en de beweging die het doet als je die toets indrukt.
         direction = new Dictionary<Keys, Vector2>()
         {
             {Keys.A, new Vector2(-1, 0) },
@@ -76,6 +77,11 @@ class GameWorld
             grid.Add(tetromino.Color, tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block);
             tetromino.Reset();
         }
+        //Als de game in de Startup of Gameoverstate is, kan de speler spatiebalk indrukken om tetris (opnieuw) te starten.
+        if ((gameState == GameState.Startup && inputHelper.KeyPressed(Keys.Space)) || (gameState == GameState.GameOver && inputHelper.KeyPressed(Keys.Space)))
+        {
+            gameState = GameState.Playing;
+        }
     }
 
     public void Update(GameTime gameTime)
@@ -89,6 +95,19 @@ class GameWorld
         grid.Draw(gameTime, spriteBatch);
 		tetromino.Draw(spriteBatch);
         //spriteBatch.DrawString(font, "Hello!", Vector2.Zero, Color.Blue);
+
+        if (gameState == GameState.Startup)
+        {
+
+        }
+        if (gameState == GameState.Playing)
+        {
+
+        }
+        if (gameState == GameState.GameOver)
+        {
+
+        }
         spriteBatch.End();
     }
 

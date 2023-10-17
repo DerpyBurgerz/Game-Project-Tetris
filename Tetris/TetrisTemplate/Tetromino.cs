@@ -28,7 +28,7 @@ class Tetromino
 		possiblePosition = true;
 		for (int i = 0; i < block.GetLength(0); i++)
 		{
-			for (int j = 0; j < block.GetLength(0); j++)
+			for (int j = 0; j < block.GetLength(1); j++)
 			{
 				newPositionX = i + (int)movement.X + horizontalIndex;
 				newPositionY = j + (int)movement.Y + verticalIndex;
@@ -39,7 +39,7 @@ class Tetromino
 					{
 						possiblePosition = false;
 					}
-					else if (grid[i + (int)movement.X + horizontalIndex, j + (int)movement.Y + verticalIndex] != Color.White)
+					else if (grid[newPositionX, newPositionY] != Color.White)
 					{
 						possiblePosition = false;
 					}

@@ -45,7 +45,7 @@ class TetrisGrid
     {
         for (int i=0; i < tetromino.GetLength(0); i++) 
         { 
-            for (int j=0; j< tetromino.GetLength(0); j++)
+            for (int j=0; j< tetromino.GetLength(1); j++)
             {
                 if (tetromino[j, i])
                 {
