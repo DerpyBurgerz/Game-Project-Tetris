@@ -11,6 +11,9 @@ class Tetromino
 
 	int horizontalIndex;
 	int verticalIndex;
+	int newPositionX;
+	int newPositionY;
+	bool possiblePosition;
 	public Tetromino(Color color)
 	{
 		this.color = color;
@@ -22,18 +25,33 @@ class Tetromino
 	}
     public void Collision(Color[,] grid, Vector2 movement)
     {
+		possiblePosition = true;
 		for (int i = 0; i < block.GetLength(0); i++)
 		{
 			for (int j = 0; j < block.GetLength(0); j++)
 			{
-				if (grid[i+(int)movement.X+horizontalIndex, j+(int)movement.Y+verticalIndex] != Color.White)
+				newPositionX = i + (int)movement.X + horizontalIndex;
+				newPositionY = j + (int)movement.Y + verticalIndex;
+				if (block[i, j])
 				{
-					break;
+					//Deze if statement checkt of de positie waar de tetromino heen wil gaan niet buiten het speelveld ligt.
+					if ((newPositionX < 0 || newPositionX >=grid.GetLength(0)) || (newPositionY < 0 || newPositionY >= grid.GetLength(1)))
+					{
+						possiblePosition = false;
+					}
+					else if (grid[i + (int)movement.X + horizontalIndex, j + (int)movement.Y + verticalIndex] != Color.White)
+					{
+						possiblePosition = false;
+					}
 				}
 			}
 		}
-		verticalIndex += (int)movement.Y;
-		horizontalIndex += (int)movement.X;
+		if (possiblePosition) 
+		{
+			verticalIndex += (int)movement.Y;
+			horizontalIndex += (int)movement.X;
+		}
+		
 	}
 	public void Reset()
 	{
