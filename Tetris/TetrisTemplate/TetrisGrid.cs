@@ -49,7 +49,7 @@ class TetrisGrid
             {
                 if (tetromino[j, i])
                 {
-                    grid[i+horizontalPosition, j+verticalPosition] = color;
+                    grid[j+horizontalPosition, i+verticalPosition] = color;
                 }
             }
         }

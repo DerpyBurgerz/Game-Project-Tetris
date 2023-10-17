@@ -43,7 +43,7 @@ class GameWorld
     /// The main grid of the game.
     /// </summary>
     TetrisGrid grid;
-    IDictionary<Keys, Vector2> movement;
+    IDictionary<Keys, Vector2> direction;
 
 	public GameWorld()
     {
@@ -55,7 +55,7 @@ class GameWorld
 
         grid = new TetrisGrid();
         tetromino = new I();
-        movement = new Dictionary<Keys, Vector2>()
+        direction = new Dictionary<Keys, Vector2>()
         {
             {Keys.A, new Vector2(-1, 0) },
             {Keys.D, new Vector2(1, 0) },
@@ -66,11 +66,16 @@ class GameWorld
 
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
     {
-        foreach (Keys key in movement.Keys)
+        //Dit loopt door de dictionary "direction". Als een van de knopjes in de dictionary ingedrukt wordt, geeft het de vector mee aan de Collision method
+        foreach (Keys key in direction.Keys)
             if (inputHelper.KeyPressed(key)) 
-                tetromino.Collision(grid.grid, movement[key]);
+                tetromino.Collision(grid.grid, direction[key]);
+        //Dit is voor debuggen. Als je E indrukt voeg je een tetromino toe aan de grid
         if (inputHelper.KeyPressed(Keys.E))
+        {
             grid.Add(tetromino.Color, tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block);
+            tetromino.Reset();
+        }
     }
 
     public void Update(GameTime gameTime)

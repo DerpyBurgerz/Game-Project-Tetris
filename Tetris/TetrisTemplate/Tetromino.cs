@@ -37,7 +37,8 @@ class Tetromino
 	}
 	public void Reset()
 	{
-
+		verticalIndex = 0;
+		horizontalIndex = 0;
 	}
 	public void Draw(SpriteBatch spriteBatch)
 	{
