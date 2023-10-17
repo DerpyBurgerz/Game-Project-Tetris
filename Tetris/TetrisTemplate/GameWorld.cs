@@ -47,8 +47,9 @@ class GameWorld
     IDictionary<Keys, Vector2> direction;
 	Vector2 textPosition;
 	int textSpacing;
+    float elapsedTime = 0;
 
-	public GameWorld()
+    public GameWorld()
     {
         random = new Random();
         gameState = GameState.Playing;
@@ -68,7 +69,8 @@ class GameWorld
         };
 
 		textSpacing = 15;
-	}
+
+    }
 
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
     {
@@ -95,8 +97,15 @@ class GameWorld
 
     public void Update(GameTime gameTime)
     {
-        
+
         //grid.Add(tetromino.Color, new Vector2(5, 4), tetromino.Block);
+        elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+    if (elapsedTime >= 1 && gameState == GameState.Playing)
+        {
+            tetromino.Collision(grid.Grid, new Vector2(0,1));
+            elapsedTime = 0;
+        }
     }
 
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
