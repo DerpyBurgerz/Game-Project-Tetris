@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 //using TetrisTemplate;
 
 /// <summary>
@@ -44,6 +45,8 @@ class GameWorld
     /// </summary>
     TetrisGrid grid;
     IDictionary<Keys, Vector2> direction;
+	Vector2 textPosition;
+	int textSpacing;
 
 	public GameWorld()
     {
@@ -63,14 +66,19 @@ class GameWorld
             {Keys.S, new Vector2(0, 1) },
             {Keys.W, new Vector2(0, -1) },
         };
+
+		textSpacing = 15;
 	}
 
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
     {
-        //Dit loopt door de dictionary "direction". Als een van de knopjes in de dictionary ingedrukt wordt, geeft het de vector mee aan de Collision method
-        foreach (Keys key in direction.Keys)
-            if (inputHelper.KeyPressed(key)) 
-                tetromino.Collision(grid.Grid, direction[key]);
+		//Dit loopt door de dictionary "direction". Als een van de knopjes in de dictionary ingedrukt wordt, geeft het de vector mee aan de Collision method
+		if (gameState == GameState.Playing)
+		{
+			foreach (Keys key in direction.Keys)
+				if (inputHelper.KeyPressed(key))
+					tetromino.Collision(grid.Grid, direction[key]);
+		}
         //Dit is voor debuggen. Als je E indrukt voeg je een tetromino toe aan de grid
         if (inputHelper.KeyPressed(Keys.E))
         {
@@ -95,20 +103,24 @@ class GameWorld
         spriteBatch.Begin();
         grid.Draw(gameTime, spriteBatch);
 		tetromino.Draw(spriteBatch);
-        //spriteBatch.DrawString(font, "Hello!", Vector2.Zero, Color.Blue);
+		//spriteBatch.DrawString(font, "Hello!", Vector2.Zero, Color.Blue);
+		textPosition.X = grid.Grid.GetLength(0) * grid.WidthEmptyCell;
+		textPosition.Y = 0;
 
         if (gameState == GameState.Startup)
         {
-
-        }
+			spriteBatch.DrawString(font, "press Spacebar to start!", textPosition, Color.Blue);
+			textPosition.Y += textSpacing;
+			spriteBatch.DrawString(font, "yay", textPosition, Color.Blue);
+		}
         if (gameState == GameState.Playing)
         {
 
         }
         if (gameState == GameState.GameOver)
         {
-
-        }
+			spriteBatch.DrawString(font, "press Spacebar to start!", textPosition, Color.Blue);
+		}
         spriteBatch.End();
     }
 
