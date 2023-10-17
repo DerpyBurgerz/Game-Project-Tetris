@@ -89,6 +89,7 @@ class GameWorld
         if ((gameState == GameState.Startup && inputHelper.KeyPressed(Keys.Space)) || (gameState == GameState.GameOver && inputHelper.KeyPressed(Keys.Space)))
         {
             gameState = GameState.Playing;
+			grid.Clear();
         }
     }
 
