@@ -70,7 +70,7 @@ class GameWorld
         //Dit loopt door de dictionary "direction". Als een van de knopjes in de dictionary ingedrukt wordt, geeft het de vector mee aan de Collision method
         foreach (Keys key in direction.Keys)
             if (inputHelper.KeyPressed(key)) 
-                tetromino.Collision(grid.grid, direction[key]);
+                tetromino.Collision(grid.Grid, direction[key]);
         //Dit is voor debuggen. Als je E indrukt voeg je een tetromino toe aan de grid
         if (inputHelper.KeyPressed(Keys.E))
         {
@@ -86,6 +86,7 @@ class GameWorld
 
     public void Update(GameTime gameTime)
     {
+        
         //grid.Add(tetromino.Color, new Vector2(5, 4), tetromino.Block);
     }
 

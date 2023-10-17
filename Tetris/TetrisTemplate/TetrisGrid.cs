@@ -15,7 +15,7 @@ class TetrisGrid
    
     /// The number of grid elements in the y-direction.
     static public int Height { get { return 20; } }
-	public Color[,] grid;
+	Color[,] grid;
 
 	
 
@@ -79,5 +79,6 @@ class TetrisGrid
 			}
 		}
 	}
+    public Color[,] Grid { get { return grid; } }
 }
 
