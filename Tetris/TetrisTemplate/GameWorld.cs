@@ -86,10 +86,9 @@ class GameWorld
 			foreach (Keys key in direction.Keys)
 				if (inputHelper.KeyPressed(key))
 				{
-					if ((tetromino.Collision(grid.Grid, direction[key], tetromino.Block) == false) && key == Keys.S)
+					if ((tetromino.Collision(grid.Grid, direction[key], tetromino.Block) == false) && direction[key].Y == 1)
 					{
-						grid.Add(tetromino.Color, tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block);
-						tetromino = new Z();
+						NewTetromino();
 					}
 					
 				}
@@ -125,8 +124,7 @@ class GameWorld
         {
             if (tetromino.Collision(grid.Grid, new Vector2(0,1), tetromino.Block) == false)
 			{
-				grid.Add(tetromino.Color, tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block);
-				tetromino = new T();
+				NewTetromino();
 			}
             elapsedTime = 0;
         }
@@ -174,5 +172,10 @@ class GameWorld
         }
         return newBag;
     }
+	public void NewTetromino()
+	{
+		grid.Add(tetromino.Color, tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block);
+		tetromino = new T();
+	}
 
 }
