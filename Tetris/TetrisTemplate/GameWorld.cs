@@ -109,6 +109,7 @@ class GameWorld
         if ((gameState == GameState.Startup && inputHelper.KeyPressed(Keys.Space)) || (gameState == GameState.GameOver && inputHelper.KeyPressed(Keys.Space)))
         {
             gameState = GameState.Playing;
+
 			Reset();
         }
     }
@@ -149,6 +150,7 @@ class GameWorld
         if (gameState == GameState.Playing)
         {
 			tetromino.Draw(spriteBatch);
+			upcomingTetrominos[0].Draw(spriteBatch);
 		}
         if (gameState == GameState.GameOver)
         {
@@ -177,8 +179,13 @@ class GameWorld
 	{
 		tetromino = upcomingTetrominos[0];
 		upcomingTetrominos.RemoveAt(0);
+		tetromino.Reset();
 		if (upcomingTetrominos.Count <= 2)
 			upcomingTetrominos.AddRange(AddBag());
+		if (tetromino.Collision(grid.Grid, new Vector2(0, 0), tetromino.Block) == false)
+		{
+			gameState = GameState.GameOver;
+		}
 	}
 
 }
