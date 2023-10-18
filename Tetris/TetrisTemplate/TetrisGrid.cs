@@ -17,7 +17,7 @@ class TetrisGrid
     static public int Height { get { return 20; } }
 	Color[,] grid;
 	bool isRowFull;
-
+    int fullRows;
 	
 
     /// <summary>
@@ -44,18 +44,44 @@ class TetrisGrid
 	}
 	public int CheckFullRows()
 	{
-		for (int i = 0; i < grid.GetLength(0); i++)
+        fullRows = 0;
+		for (int i = 1; i < grid.GetLength(1); i++)
 		{
-			for (int j = 0; j < grid.GetLength(1); j++)
+			isRowFull = true;
+			for (int j = 0; j < grid.GetLength(0); j++)
 			{
-				isRowFull = true;
-				if (grid[i, j] == Color.White)
+				        
+				if (grid[j, i] == Color.White)
 				{
 					isRowFull = false;
 				}
 			}
+            if (isRowFull)
+            {
+                RemoveRow(i);
+                fullRows++;
+            }
 		}
-		return 0;
+		return fullRows;
+	}
+    public void NewRow()
+    {
+        for (int i = 0;  i < grid.GetLength(0); i++)
+        {
+            grid[i, 0] = Color.White;
+        }
+    }
+    public void RemoveRow(int y)
+    {
+		fullRows++;
+		for (int k = 0; k < y; k++)
+		{
+			for (int l = 0; l < grid.GetLength(0); l++)
+			{
+				grid[l, y - k] = grid[l, y - k - 1];
+			}
+		}
+		NewRow();
 	}
 	public void Add(Color color, int horizontalPosition, int verticalPosition, bool[,] tetromino)
     {

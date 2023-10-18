@@ -42,7 +42,7 @@ class Tetromino
 				}
 			}
 		}
-		if (possiblePosition) 
+		if ((possiblePosition) || true)
 		{
 			verticalIndex += (int)movement.Y;
 			horizontalIndex += (int)movement.X;

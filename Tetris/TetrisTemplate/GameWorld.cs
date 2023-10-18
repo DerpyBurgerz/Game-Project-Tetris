@@ -95,8 +95,9 @@ class GameWorld
 
     public void Update(GameTime gameTime)
     {
-        
+
         //grid.Add(tetromino.Color, new Vector2(5, 4), tetromino.Block);
+        grid.CheckFullRows();
     }
 
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
