@@ -53,7 +53,7 @@ class TetrisGrid
 				        
 				if (grid[j, i] == Color.White)
 				{
-					isRowFull = false;
+					isRowFull = false;  
 				}
 			}
             if (isRowFull)
@@ -64,25 +64,26 @@ class TetrisGrid
 		}
 		return fullRows;
 	}
-    public void NewRow()
+	public void RemoveRow(int y)
+	{
+		fullRows++;
+		for (int i = 0; i < y; i++)
+		{
+			for (int j = 0; j < grid.GetLength(0); j++)
+			{
+				grid[j, y - i] = grid[j, y - i - 1];
+			}
+		}
+		NewRow();
+	}
+	public void NewRow()
     {
         for (int i = 0;  i < grid.GetLength(0); i++)
         {
             grid[i, 0] = Color.White;
         }
     }
-    public void RemoveRow(int y)
-    {
-		fullRows++;
-		for (int k = 0; k < y; k++)
-		{
-			for (int l = 0; l < grid.GetLength(0); l++)
-			{
-				grid[l, y - k] = grid[l, y - k - 1];
-			}
-		}
-		NewRow();
-	}
+    
 	public void Add(Color color, int horizontalPosition, int verticalPosition, bool[,] tetromino)
     {
         for (int i=0; i < tetromino.GetLength(0); i++) 
