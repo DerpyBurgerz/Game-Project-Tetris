@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 //using TetrisTemplate;
 
 /// <summary>
@@ -22,6 +23,7 @@ class GameWorld
     }
 
 	Tetromino tetromino;
+    List <Tetromino> upcomingTetrominos, bagOfTetrominos, newBag;
 
     /// <summary>
     /// The random-number generator of the game.
@@ -63,6 +65,11 @@ class GameWorld
             {Keys.S, new Vector2(0, 1) },
             {Keys.W, new Vector2(0, -1) },
         };
+
+        upcomingTetrominos = new List<Tetromino>();
+        newBag = new List<Tetromino>();
+        bagOfTetrominos = new List<Tetromino>();
+        upcomingTetrominos.AddRange(AddBag());
 	}
 
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
@@ -116,6 +123,17 @@ class GameWorld
     {
         tetromino.Reset();
         grid.Clear();
+    }
+    public List<Tetromino> AddBag()
+    {
+		newBag.Clear();
+        bagOfTetrominos = new List<Tetromino> { new I(), new J(), new L(), new O(), new S(), new T(), new Z() };
+        while (bagOfTetrominos.Count > 0)
+        {
+            newBag.Add(bagOfTetrominos[random.Next(0, bagOfTetrominos.Count)]);
+            bagOfTetrominos.Remove(newBag.Last());
+        }
+        return newBag;
     }
 
 }
