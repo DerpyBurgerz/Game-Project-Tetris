@@ -16,7 +16,8 @@ class TetrisGrid
     /// The number of grid elements in the y-direction.
     static public int Height { get { return 20; } }
 	Color[,] grid;
-
+	bool isRowFull;
+    int fullRows;
 	
 
     /// <summary>
@@ -41,7 +42,49 @@ class TetrisGrid
     {
 		
 	}
-    public void Add(Color color, int horizontalPosition, int verticalPosition, bool[,] tetromino)
+	public int CheckFullRows()
+	{
+        fullRows = 0;
+		for (int i = 1; i < grid.GetLength(1); i++)
+		{
+			isRowFull = true;
+			for (int j = 0; j < grid.GetLength(0); j++)
+			{
+				        
+				if (grid[j, i] == Color.White)
+				{
+					isRowFull = false;  
+				}
+			}
+            if (isRowFull)
+            {
+                RemoveRow(i);
+                fullRows++;
+            }
+		}
+		return fullRows;
+	}
+	public void RemoveRow(int y)
+	{
+		fullRows++;
+		for (int i = 0; i < y; i++)
+		{
+			for (int j = 0; j < grid.GetLength(0); j++)
+			{
+				grid[j, y - i] = grid[j, y - i - 1];
+			}
+		}
+		NewRow();
+	}
+	public void NewRow()
+    {
+        for (int i = 0;  i < grid.GetLength(0); i++)
+        {
+            grid[i, 0] = Color.White;
+        }
+    }
+    
+	public void Add(Color color, int horizontalPosition, int verticalPosition, bool[,] tetromino)
     {
         for (int i=0; i < tetromino.GetLength(0); i++) 
         { 

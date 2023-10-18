@@ -110,6 +110,8 @@ class GameWorld
     {
 
         //grid.Add(tetromino.Color, new Vector2(5, 4), tetromino.Block);
+        grid.CheckFullRows();
+    }
         elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
     if (elapsedTime >= 1 && gameState == GameState.Playing)
