@@ -61,7 +61,7 @@ class GameWorld
         font = TetrisGame.ContentManager.Load<SpriteFont>("SpelFont");
 
         grid = new TetrisGrid();
-        tetromino = new J();
+		grid.Clear();
         gameState = GameState.Startup;
         //In deze dictionary staan de toetsen die je in kan drukken voor de beweging van de tetromino's, en de beweging die het doet als je die toets indrukt.
         direction = new Dictionary<Keys, Vector2>()
@@ -76,6 +76,7 @@ class GameWorld
 		newBag = new List<Tetromino>();
 		bagOfTetrominos = new List<Tetromino>();
 		upcomingTetrominos.AddRange(AddBag());
+		//NewTetromino();
 	}
 
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
@@ -88,27 +89,27 @@ class GameWorld
 				{
 					if ((tetromino.Collision(grid.Grid, direction[key], tetromino.Block) == false) && direction[key].Y == 1)
 					{
+						grid.Add(tetromino.Color, tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block);
 						NewTetromino();
 					}
-					
 				}
 		}
         //Dit is voor debuggen. Als je E indrukt voeg je een tetromino toe aan de grid
         if (inputHelper.KeyPressed(Keys.E))
         {
             grid.Add(tetromino.Color, tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block);
-            tetromino.Reset();
+			NewTetromino();
         }
 
         if (inputHelper.KeyPressed(Keys.Q))
         {
             tetromino.Rotate(grid.Grid);
         }
-            //Als de game in de Startup of Gameoverstate is, kan de speler spatiebalk indrukken om tetris (opnieuw) te starten.
-            if ((gameState == GameState.Startup && inputHelper.KeyPressed(Keys.Space)) || (gameState == GameState.GameOver && inputHelper.KeyPressed(Keys.Space)))
+        //Als de game in de Startup of Gameoverstate is, kan de speler spatiebalk indrukken om tetris (opnieuw) te starten.
+        if ((gameState == GameState.Startup && inputHelper.KeyPressed(Keys.Space)) || (gameState == GameState.GameOver && inputHelper.KeyPressed(Keys.Space)))
         {
             gameState = GameState.Playing;
-			grid.Clear();
+			Reset();
         }
     }
 
@@ -122,8 +123,9 @@ class GameWorld
 
         if (elapsedTime >= 1 && gameState == GameState.Playing)
         {
-            if (tetromino.Collision(grid.Grid, new Vector2(0,1), tetromino.Block) == false)
+			if (tetromino.Collision(grid.Grid, new Vector2(0, 1), tetromino.Block) == false)
 			{
+				grid.Add(tetromino.Color, tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block);
 				NewTetromino();
 			}
             elapsedTime = 0;
@@ -134,7 +136,6 @@ class GameWorld
     {
         spriteBatch.Begin();
         grid.Draw(gameTime, spriteBatch);
-		tetromino.Draw(spriteBatch);
 		//spriteBatch.DrawString(font, "Hello!", Vector2.Zero, Color.Blue);
 		textPosition.X = grid.Grid.GetLength(0) * grid.WidthEmptyCell;
 		textPosition.Y = 0;
@@ -147,8 +148,8 @@ class GameWorld
 		}
         if (gameState == GameState.Playing)
         {
-
-        }
+			tetromino.Draw(spriteBatch);
+		}
         if (gameState == GameState.GameOver)
         {
 			spriteBatch.DrawString(font, "press Spacebar to start!", textPosition, Color.Blue);
@@ -158,7 +159,7 @@ class GameWorld
 
     public void Reset()
     {
-        tetromino.Reset();
+		NewTetromino();
         grid.Clear();
     }
     public List<Tetromino> AddBag()
@@ -174,8 +175,10 @@ class GameWorld
     }
 	public void NewTetromino()
 	{
-		grid.Add(tetromino.Color, tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block);
-		tetromino = new T();
+		tetromino = upcomingTetrominos[0];
+		upcomingTetrominos.RemoveAt(0);
+		if (upcomingTetrominos.Count <= 2)
+			upcomingTetrominos.AddRange(AddBag());
 	}
 
 }
