@@ -80,5 +80,6 @@ class TetrisGrid
 		}
 	}
     public Color[,] Grid { get { return grid; } }
+	public int WidthEmptyCell { get { return emptyCell.Width; } }
 }
 

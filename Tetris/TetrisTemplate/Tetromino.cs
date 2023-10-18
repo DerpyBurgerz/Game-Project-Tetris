@@ -20,10 +20,6 @@ class Tetromino
 		this.color = color;
 		cell = TetrisGame.ContentManager.Load<Texture2D>("block");
 	}
-	public void Input(InputHelper inputhelper)
-	{
-
-	}
     public void Collision(Color[,] grid, Vector2 movement)
     {
 		possiblePosition = true;
