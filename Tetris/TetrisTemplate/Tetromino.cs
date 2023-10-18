@@ -8,7 +8,7 @@ class Tetromino
 	Vector2 position;
 	Texture2D cell;
 	Color color;
-	public bool[,] block;
+	public bool[,] block, tempBlock;
 
 	int horizontalIndex;
 	int verticalIndex;
@@ -20,9 +20,10 @@ class Tetromino
 		this.color = color;
 		cell = TetrisGame.ContentManager.Load<Texture2D>("block");
 	}
-    public void Collision(Color[,] grid, Vector2 movement)
+    public bool Collision(Color[,] grid, Vector2 movement, bool[,] block)
     {
 		possiblePosition = true;
+
 		for (int i = 0; i < block.GetLength(0); i++)
 		{
 			for (int j = 0; j < block.GetLength(1); j++)
@@ -47,10 +48,31 @@ class Tetromino
 		{
 			verticalIndex += (int)movement.Y;
 			horizontalIndex += (int)movement.X;
+			return true;
 		}
-		
+		return false;
 	}
-	public void Reset()
+
+    
+    public void Rotate(Color[,] grid)
+	{
+		//source: https://stackoverflow.com/questions/646468/how-to-rotate-a-2d-array-of-integers
+
+		tempBlock = new bool[block.GetLength(0), block.GetLength(0)];
+		for (int i = (block.GetLength(0) - 1); i >= 0; --i)
+        {
+            for (int j = 0; j < block.GetLength(0); ++j)
+            {
+			
+				tempBlock[j, block.GetLength(0) -1 - i] = block[i, j];
+            }
+        }
+		if (Collision(grid, new Vector2(0,0) , tempBlock))
+			block = tempBlock;
+    }
+
+    
+    public void Reset()
 	{
 		verticalIndex = 0;
 		horizontalIndex = 0;

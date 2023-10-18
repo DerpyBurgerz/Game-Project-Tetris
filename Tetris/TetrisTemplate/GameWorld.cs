@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Linq;
 
@@ -60,7 +61,7 @@ class GameWorld
         font = TetrisGame.ContentManager.Load<SpriteFont>("SpelFont");
 
         grid = new TetrisGrid();
-        tetromino = new I();
+        tetromino = new J();
         gameState = GameState.Startup;
         //In deze dictionary staan de toetsen die je in kan drukken voor de beweging van de tetromino's, en de beweging die het doet als je die toets indrukt.
         direction = new Dictionary<Keys, Vector2>()
@@ -84,7 +85,7 @@ class GameWorld
 		{
 			foreach (Keys key in direction.Keys)
 				if (inputHelper.KeyPressed(key))
-					tetromino.Collision(grid.Grid, direction[key]);
+					tetromino.Collision(grid.Grid, direction[key], tetromino.Block);
 		}
         //Dit is voor debuggen. Als je E indrukt voeg je een tetromino toe aan de grid
         if (inputHelper.KeyPressed(Keys.E))
@@ -92,8 +93,13 @@ class GameWorld
             grid.Add(tetromino.Color, tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block);
             tetromino.Reset();
         }
-        //Als de game in de Startup of Gameoverstate is, kan de speler spatiebalk indrukken om tetris (opnieuw) te starten.
-        if ((gameState == GameState.Startup && inputHelper.KeyPressed(Keys.Space)) || (gameState == GameState.GameOver && inputHelper.KeyPressed(Keys.Space)))
+
+        if (inputHelper.KeyPressed(Keys.Q))
+        {
+            tetromino.Rotate(grid.Grid);
+        }
+            //Als de game in de Startup of Gameoverstate is, kan de speler spatiebalk indrukken om tetris (opnieuw) te starten.
+            if ((gameState == GameState.Startup && inputHelper.KeyPressed(Keys.Space)) || (gameState == GameState.GameOver && inputHelper.KeyPressed(Keys.Space)))
         {
             gameState = GameState.Playing;
 			grid.Clear();
@@ -108,7 +114,7 @@ class GameWorld
 
     if (elapsedTime >= 1 && gameState == GameState.Playing)
         {
-            tetromino.Collision(grid.Grid, new Vector2(0,1));
+            //tetromino.Collision(grid.Grid, new Vector2(0,1), tetromino.Block));
             elapsedTime = 0;
         }
     }
