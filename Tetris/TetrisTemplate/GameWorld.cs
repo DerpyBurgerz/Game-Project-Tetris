@@ -111,14 +111,14 @@ class GameWorld
 
         //grid.Add(tetromino.Color, new Vector2(5, 4), tetromino.Block);
         grid.CheckFullRows();
-    }
+    
         elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-    if (elapsedTime >= 1 && gameState == GameState.Playing)
-        {
-            //tetromino.Collision(grid.Grid, new Vector2(0,1), tetromino.Block));
-            elapsedTime = 0;
-        }
+        if (elapsedTime >= 1 && gameState == GameState.Playing)
+            {
+                //tetromino.Collision(grid.Grid, new Vector2(0,1), tetromino.Block));
+                elapsedTime = 0;
+            }
     }
 
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
