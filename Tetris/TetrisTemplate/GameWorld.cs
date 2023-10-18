@@ -69,16 +69,12 @@ class GameWorld
             {Keys.D, new Vector2(1, 0) },
             {Keys.S, new Vector2(0, 1) },
             {Keys.W, new Vector2(0, -1) },
-
+        };
 		textSpacing = 15;
-
-    }
-
-        upcomingTetrominos = new List<Tetromino>();
-        newBag = new List<Tetromino>();
-        bagOfTetrominos = new List<Tetromino>();
-        upcomingTetrominos.AddRange(AddBag());
-	}
+		upcomingTetrominos = new List<Tetromino>();
+		newBag = new List<Tetromino>();
+		bagOfTetrominos = new List<Tetromino>();
+		upcomingTetrominos.AddRange(AddBag());
 	}
 
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
