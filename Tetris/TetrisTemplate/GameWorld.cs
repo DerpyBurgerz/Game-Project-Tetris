@@ -85,7 +85,14 @@ class GameWorld
 		{
 			foreach (Keys key in direction.Keys)
 				if (inputHelper.KeyPressed(key))
-					tetromino.Collision(grid.Grid, direction[key], tetromino.Block);
+				{
+					if ((tetromino.Collision(grid.Grid, direction[key], tetromino.Block) == false) && key == Keys.S)
+					{
+						grid.Add(tetromino.Color, tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block);
+						tetromino = new Z();
+					}
+					
+				}
 		}
         //Dit is voor debuggen. Als je E indrukt voeg je een tetromino toe aan de grid
         if (inputHelper.KeyPressed(Keys.E))
@@ -115,10 +122,14 @@ class GameWorld
         elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
         if (elapsedTime >= 1 && gameState == GameState.Playing)
-            {
-                //tetromino.Collision(grid.Grid, new Vector2(0,1), tetromino.Block));
-                elapsedTime = 0;
-            }
+        {
+            if (tetromino.Collision(grid.Grid, new Vector2(0,1), tetromino.Block) == false)
+			{
+				grid.Add(tetromino.Color, tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block);
+				tetromino = new T();
+			}
+            elapsedTime = 0;
+        }
     }
 
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)

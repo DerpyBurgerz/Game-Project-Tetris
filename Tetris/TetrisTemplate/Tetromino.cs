@@ -8,7 +8,8 @@ class Tetromino
 	Vector2 position;
 	Texture2D cell;
 	Color color;
-	public bool[,] block, tempBlock;
+	public bool[,] block;
+	bool[,] tempBlock;
 
 	int horizontalIndex;
 	int verticalIndex;
@@ -92,7 +93,7 @@ class Tetromino
 		}
 	}
 	public Color Color { get { return color; } }
-	public bool[,] Block {  get { return block; } }
+	public bool[,] Block { get { return block; } }
 	public int VerticalIndex { get { return verticalIndex; } }
 	public int HorizontalIndex { get { return horizontalIndex; } }
 }
