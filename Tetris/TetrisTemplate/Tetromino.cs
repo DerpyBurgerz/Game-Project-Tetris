@@ -8,7 +8,7 @@ class Tetromino
 	Vector2 position;
 	Texture2D cell;
 	Color color;
-	public bool[,] block;
+	protected bool[,] block;
 	bool[,] tempBlock;
 
 	int horizontalIndex, verticalIndex;
