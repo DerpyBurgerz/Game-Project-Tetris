@@ -18,12 +18,6 @@ class TetrisGrid
 	Color[,] grid;
 	bool isRowFull;
     int fullRows;
-	
-
-    /// <summary>
-    /// Creates a new TetrisGrid.
-    /// </summary>
-    /// <param name="b"></param>
     public TetrisGrid()
     {
         emptyCell = TetrisGame.ContentManager.Load<Texture2D>("block");
@@ -31,18 +25,33 @@ class TetrisGrid
 		grid = new Color[Width, Height];
         Clear();
     }
-
-    /// <summary>
-    /// Draws the grid on the screen.
-    /// </summary>
-    /// <param name="gameTime">An object with information about the time that has passed in the game.</param>
-    /// <param name="spriteBatch">The SpriteBatch used for drawing sprites and text.</param>
-    
-    public void Reset()
-    {
-		
+    public void Clear()
+	//Deze methode vult de grid met empty cells
+	{
+		for (int i = 0; i < Width; i++)
+		{
+			for (int j = 0; j < Height; j++)
+			{
+				grid[i, j] = GameWorld.EmptyCell;
+			}
+		}
+	}
+	public void Add(Color color, int horizontalPosition, int verticalPosition, bool[,] tetromino)
+	//De Add methode voegt een Tetromino toe aan de grid
+	{
+		for (int i = 0; i < tetromino.GetLength(0); i++)
+		{
+			for (int j = 0; j < tetromino.GetLength(1); j++)
+			{
+				if (tetromino[j, i])
+				{
+					grid[j + horizontalPosition, i + verticalPosition] = color;
+				}
+			}
+		}
 	}
 	public int CheckFullRows()
+	//De CheckFullRows methode checkt of er een rij vol is, haalt deze weg en returnt het aantal weggehaalde rijen.
 	{
         fullRows = 0;
 		for (int i = 1; i < grid.GetLength(1); i++)
@@ -51,7 +60,7 @@ class TetrisGrid
 			for (int j = 0; j < grid.GetLength(0); j++)
 			{
 				        
-				if (grid[j, i] == Color.White)
+				if (grid[j, i] == GameWorld.EmptyCell)
 				{
 					isRowFull = false;  
 				}
@@ -66,6 +75,7 @@ class TetrisGrid
 	}
 	public void RemoveRow(int y)
 	{
+	//Deze methode haalt een rij y weg
 		fullRows++;
 		for (int i = 0; i < y; i++)
 		{
@@ -77,27 +87,18 @@ class TetrisGrid
 		NewRow();
 	}
 	public void NewRow()
+	//Deze methode voegt een nieuw rij toe aan de bovenkant van de grid.
     {
         for (int i = 0;  i < grid.GetLength(0); i++)
         {
-            grid[i, 0] = Color.White;
+            grid[i, 0] = GameWorld.EmptyCell;
         }
     }
     
-	public void Add(Color color, int horizontalPosition, int verticalPosition, bool[,] tetromino)
-    {
-        for (int i=0; i < tetromino.GetLength(0); i++) 
-        { 
-            for (int j=0; j< tetromino.GetLength(1); j++)
-            {
-                if (tetromino[j, i])
-                {
-                    grid[j+horizontalPosition, i+verticalPosition] = color;
-                }
-            }
-        }
-    }
+	
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+	//De Draw method tekent de grid.
+	//Het gebruikt de Color type uit de array als filter over de emptyCell sprite om de gevulde vakjes een kleur te geven.
     {
 		for (int i = 0;i < Width;i++)
 		{
@@ -108,20 +109,6 @@ class TetrisGrid
 			}
 		}
     }
-
-    /// <summary>
-    /// Clears the grid.
-    /// </summary>
-    public void Clear()
-    {
-		for (int i = 0; i < Width; i++)
-		{
-			for (int j = 0; j < Height; j++)
-			{
-				grid[i, j] = Color.White;
-			}
-		}
-	}
     public Color[,] Grid { get { return grid; } }
 	public int WidthEmptyCell { get { return emptyCell.Width; } }
 }

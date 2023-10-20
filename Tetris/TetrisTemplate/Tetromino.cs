@@ -16,6 +16,7 @@ class Tetromino
 	bool possiblePosition;
 	public Tetromino(Color color)
 	{
+		block = new bool[,]{{ false}};//Als de subclass geen block aanmaakt krijgt het de default "false" waarde.
 		this.color = color;
 		cell = TetrisGame.ContentManager.Load<Texture2D>("block");
 		//de horizontalIndex en verticalIndex worden hier op de positie gezet waar de tetromino zichtbaar is als het in de upcomingTetrominos lijst zit in GameWorld.
@@ -44,7 +45,7 @@ class Tetromino
 						possiblePosition = false;
 					}
 					//Deze if statement checkt of de tetromino overlapt met een gekleurd vakje in de grid.
-					else if (grid[newPositionX, newPositionY] != Color.White)
+					else if (grid[newPositionX, newPositionY] != GameWorld.EmptyCell)
 					{
 						possiblePosition = false;
 					}
@@ -116,6 +117,11 @@ class Tetromino
 		this.verticalIndex = verticalIndex;
 		this.block = block;
 		this.color = color;
+	}
+	public void SetPosition(int horizontalIndex, int verticalIndex)
+	{
+		this.horizontalIndex = horizontalIndex;
+		this.verticalIndex = verticalIndex;
 	}
 	public Color Color { get { return color; } }
 	public bool[,] Block { get { return block; } }
