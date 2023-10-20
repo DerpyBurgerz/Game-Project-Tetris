@@ -61,25 +61,36 @@ class Tetromino
 	}
 
     
-    public void Rotate(Color[,] grid)//de Rotate method draait de Tetromino als de Tetromino kan draaien.
+    public void Rotate(Color[,] grid, bool clockWise)
+		//de Rotate method draait de Tetromino als de Tetromino kan draaien.
+		//als clockWise is true, draait het clockwise. Als clockWise is false, draait het counterclockwise
 	{
 		//source: https://stackoverflow.com/questions/646468/how-to-rotate-a-2d-array-of-integers
-
 		tempBlock = new bool[block.GetLength(0), block.GetLength(0)];
-		for (int i = (block.GetLength(0) - 1); i >= 0; --i)
-        {
-            for (int j = 0; j < block.GetLength(0); ++j)
-            {
+		if (clockWise ) 
+			for (int i = (block.GetLength(0) - 1); i >= 0; --i)
+			{
+				for (int j = 0; j < block.GetLength(0); ++j)
+				{
 			
-				tempBlock[j, block.GetLength(0) -1 - i] = block[i, j];
-            }
-        }
-		if (Collision(grid, new Vector2(0,0) , tempBlock))
-			block = tempBlock;
-    }
+					tempBlock[j, block.GetLength(0) -1 - i] = block[i, j];
+				}
+			}
+		else
+			for (int i = (block.GetLength(0) - 1); i >= 0; --i)
+			{
+				for (int j = 0; j < block.GetLength(0); ++j)
+				{
 
-    
-    public void Reset()//Deze method zet de Tetromino in het speelveld
+					tempBlock[block.GetLength(0) - j - 1, i] = block[i, j];
+				}
+			}
+		if (Collision(grid, new Vector2(0, 0), tempBlock))
+		{
+			block = tempBlock;
+		}
+    }
+	public void Reset()//Deze method zet de Tetromino in het speelveld
 	{
 		verticalIndex = 0;
 		horizontalIndex = 0;

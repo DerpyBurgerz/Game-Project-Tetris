@@ -81,6 +81,7 @@ class GameWorld
 
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
     {
+		
 		//Dit loopt door de dictionary "direction". Als een van de knopjes in de dictionary ingedrukt wordt, geeft het de vector mee aan de Collision method
 		if (gameState == GameState.Playing)
 		{
@@ -93,6 +94,12 @@ class GameWorld
 						NewTetromino();
 					}
 				}
+			if (inputHelper.KeyPressed(Keys.Space))
+			{
+				while (tetromino.Collision(grid.Grid, new Vector2(0, 1), tetromino.Block)) ;
+				grid.Add(tetromino.Color, tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block);
+				NewTetromino();
+			}
 		}
         //Dit is voor debuggen. Als je E indrukt voeg je een tetromino toe aan de grid
         if (inputHelper.KeyPressed(Keys.E))
@@ -101,15 +108,18 @@ class GameWorld
 			NewTetromino();
         }
 
-        if (inputHelper.KeyPressed(Keys.Q))
+        if ((inputHelper.KeyPressed(Keys.Q)) || (inputHelper.KeyPressed(Keys.Z)))      
         {
-            tetromino.Rotate(grid.Grid);
+            tetromino.Rotate(grid.Grid, true);
         }
-        //Als de game in de Startup of Gameoverstate is, kan de speler spatiebalk indrukken om tetris (opnieuw) te starten.
-        if ((gameState == GameState.Startup && inputHelper.KeyPressed(Keys.Space)) || (gameState == GameState.GameOver && inputHelper.KeyPressed(Keys.Space)))
+		if (inputHelper.KeyPressed(Keys.X))
+		{
+			tetromino.Rotate(grid.Grid, false);
+		}
+		//Als de game in de Startup of Gameoverstate is, kan de speler spatiebalk indrukken om tetris (opnieuw) te starten.
+		if ((gameState == GameState.Startup && inputHelper.KeyPressed(Keys.Space)) || (gameState == GameState.GameOver && inputHelper.KeyPressed(Keys.Space)))
         {
             gameState = GameState.Playing;
-
 			Reset();
         }
     }

@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Input;
 
 class TetrisGame : Game
 {
@@ -60,7 +61,10 @@ class TetrisGame : Game
         inputHelper.Update(gameTime);
         gameWorld.HandleInput(gameTime, inputHelper);
         gameWorld.Update(gameTime);
-    }
+        if (inputHelper.KeyDown(Keys.Escape))//als je escape indrukt, stopt de game.
+            Exit();
+
+	}
 
     protected override void Draw(GameTime gameTime)
     {
