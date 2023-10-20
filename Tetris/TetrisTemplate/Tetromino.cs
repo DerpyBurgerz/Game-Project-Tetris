@@ -93,7 +93,7 @@ class Tetromino
 	public void Reset()//Deze method zet de Tetromino in het speelveld
 	{
 		verticalIndex = 0;
-		horizontalIndex = 0;
+		horizontalIndex = 3;
 	}
 	public void Draw(SpriteBatch spriteBatch, float transparency)
 	{
@@ -111,6 +111,7 @@ class Tetromino
 	}
 	public void GhostUpdate(int horizontalIndex, int verticalIndex, bool[,] block, Color color)
 	{
+		//De GhostUpdate method is voor de Ghost. Deze krijgt hier de data van de tetromino die op het speelveld zit. 
 		this.horizontalIndex = horizontalIndex;
 		this.verticalIndex = verticalIndex;
 		this.block = block;

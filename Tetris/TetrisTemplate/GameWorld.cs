@@ -70,7 +70,7 @@ class GameWorld
             {Keys.Left, new Vector2(-1, 0) },
             {Keys.Right, new Vector2(1, 0) },
             {Keys.Down, new Vector2(0, 1) },
-            {Keys.Up, new Vector2(0, -1) },//deze key is voor debuggen
+            //{Keys.Up, new Vector2(0, -1) },//deze key is voor debuggen
         };
 		textSpacing = 15;
 		upcomingTetrominos = new List<Tetromino>();
@@ -90,11 +90,7 @@ class GameWorld
 			foreach (Keys key in direction.Keys)
 				if ((inputHelper.KeyDown(key)) && (movementCooldown >=0.07))
 				{
-					if ((tetromino.Collision(grid.Grid, direction[key], tetromino.Block) == false) && direction[key].Y == 1)
-					{
-						grid.Add(tetromino.Color, tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block);
-						NewTetromino();
-					}
+                    tetromino.Collision(grid.Grid, direction[key], tetromino.Block);
                     movementCooldown = 0;
 				}
             //spatiebalk voor hard drop
@@ -111,17 +107,19 @@ class GameWorld
                 NewTetromino();
             }
 
-			if ((inputHelper.KeyPressed(Keys.Q)) || (inputHelper.KeyPressed(Keys.Z)))
+			if ((inputHelper.KeyPressed(Keys.Q)) || (inputHelper.KeyPressed(Keys.Z)) )
 			{
 				tetromino.Rotate(grid.Grid, true);
 			}
-			if (inputHelper.KeyPressed(Keys.X))
+			if ((inputHelper.KeyPressed(Keys.X))|| inputHelper.KeyPressed(Keys.Up))
 			{
 				tetromino.Rotate(grid.Grid, false);
 			}
             //movementcooldown is er zodat je pijltjestoetsen ingedruk kan houden om naar links, rechts of beneden te gaan.
 			movementCooldown += gameTime.ElapsedGameTime.TotalSeconds;
+            //De ghostTetromino krijg de positie, array en kleur van de tetromino in het speelveld.
             ghostTetromino.GhostUpdate(tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block, tetromino.Color);
+            //Deze while loop verplaatst de ghostTetromino naar beneden tot het niet meer naar beneden kan.
 			while (ghostTetromino.Collision(grid.Grid, new Vector2(0, 1), ghostTetromino.Block));
 
 		}
