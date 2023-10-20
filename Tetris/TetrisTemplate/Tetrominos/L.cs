@@ -7,11 +7,11 @@ class L : Tetromino
 	{
 		block = new bool[,]
 		{
-			{false, false, true},
-			{true, true, true},
-			{false, false, false},
-
+			{true, true, false},
+			{false, true, false},
+			{false, true, false},
 		};
+		baseRotationBlock = block;
 	}
 }
 

@@ -8,12 +8,13 @@ class Tetromino
 	Vector2 position;
 	Texture2D cell;
 	Color color;
-	protected bool[,] block;
+	protected bool[,] block, baseRotationBlock;
 	bool[,] tempBlock;
 
 	private int horizontalIndex, verticalIndex;
 	int newPositionX, newPositionY;
 	bool possiblePosition;
+	int rotation;
 	public Tetromino(Color color)
 	{
 		block = new bool[,]{{ false}};//Als de subclass geen block aanmaakt krijgt het de default "false" waarde.
@@ -23,6 +24,7 @@ class Tetromino
 		//Zodra de tetromino de huidige Tetromino wordt, wordt de Reset method aangeroepen die de tetromino in het speelveld zet.
 		horizontalIndex = 11;
 		verticalIndex = 8;
+		rotation = 0;
 	}
     public bool Collision(Color[,] grid, Vector2 movement, bool[,] block)
 		//De Collision method checkt of de nieuwe orientatie en positie van de tetromino mogelijk is. 
@@ -61,23 +63,15 @@ class Tetromino
 		return false;
 	}
 
-    
-    public void Rotate(Color[,] grid, bool clockWise)
-		//de Rotate method draait de Tetromino als de Tetromino kan draaien.
-		//als clockWise is true, draait het clockwise. Als clockWise is false, draait het counterclockwise
+
+	public void Rotate(Color[,] grid, bool clockWise)
+	//de Rotate method draait de Tetromino als de Tetromino kan draaien.
+	//als clockWise is true, draait het clockwise. Als clockWise is false, draait het counterclockwise
 	{
 		//source: https://stackoverflow.com/questions/646468/how-to-rotate-a-2d-array-of-integers
 		tempBlock = new bool[block.GetLength(0), block.GetLength(0)];
-		if (clockWise ) 
-			for (int i = (block.GetLength(0) - 1); i >= 0; --i)
-			{
-				for (int j = 0; j < block.GetLength(0); ++j)
-				{
-			
-					tempBlock[j, block.GetLength(0) -1 - i] = block[i, j];
-				}
-			}
-		else
+		if (clockWise)
+		{
 			for (int i = (block.GetLength(0) - 1); i >= 0; --i)
 			{
 				for (int j = 0; j < block.GetLength(0); ++j)
@@ -86,15 +80,37 @@ class Tetromino
 					tempBlock[block.GetLength(0) - j - 1, i] = block[i, j];
 				}
 			}
-		if (Collision(grid, new Vector2(0, 0), tempBlock))
-		{
-			block = tempBlock;
+			if (Collision(grid, new Vector2(0, 0), tempBlock))
+			{
+				rotation += 1;
+				block = tempBlock;
+			}
 		}
-    }
+		else
+		{
+			for (int i = (block.GetLength(0) - 1); i >= 0; --i)
+			{
+				for (int j = 0; j < block.GetLength(0); ++j)
+				{
+
+					tempBlock[j, block.GetLength(0) - 1 - i] = block[i, j];
+				}
+			}
+			if (Collision(grid, new Vector2(0, 0), tempBlock))
+			{
+				rotation -= 1;
+				block = tempBlock;
+			}
+		}
+
+		
+
+	}
 	public void Reset()//Deze method zet de Tetromino in het speelveld
 	{
 		verticalIndex = 0;
 		horizontalIndex = 3;
+		block = baseRotationBlock;
 	}
 	public void Draw(SpriteBatch spriteBatch, float transparency)
 	{

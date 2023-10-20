@@ -6,10 +6,11 @@ class Z : Tetromino
 	{
 		block = new bool[,]
 		{
+			{false, true, false},
 			{true, true, false},
-			{false, true, true},
-			{false, false, false},
+			{true, false, false},
 		};
+		baseRotationBlock = block;
 	}
 }
 

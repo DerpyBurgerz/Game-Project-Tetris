@@ -2,14 +2,15 @@
 class S : Tetromino
 {
 	public S()
-		:base(Color.Green)
+		:base(Color.LimeGreen)
 	{
 		block = new bool[,]
 		{
-			{false, true, true},
+			{true, false, false},
 			{true, true, false},
-			{false, false, false},
+			{false, true, false},
 		};
+		baseRotationBlock = block;
 	}
 }
 

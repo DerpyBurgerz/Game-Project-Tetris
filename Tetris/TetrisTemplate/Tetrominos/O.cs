@@ -12,6 +12,7 @@ class O : Tetromino
 			{false, true, true, false },
 			{false, false, false, false },
 		};
+		baseRotationBlock = block;
 	}
 }
 

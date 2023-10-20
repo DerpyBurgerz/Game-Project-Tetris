@@ -93,12 +93,12 @@ class GameWorld
 
             //Als Q of Z wordt ingedrukt draait de tetromino met de klok mee. ALs je X of Up indrukt draait het tegen de klok in. 
 			if ((inputHelper.KeyPressed(Keys.Q)) || (inputHelper.KeyPressed(Keys.Z)) )
-				tetromino.Rotate(grid.Grid, true);
-			if ((inputHelper.KeyPressed(Keys.X))|| inputHelper.KeyPressed(Keys.Up))
 				tetromino.Rotate(grid.Grid, false);
+			if ((inputHelper.KeyPressed(Keys.X))|| inputHelper.KeyPressed(Keys.Up))
+				tetromino.Rotate(grid.Grid, true);
 
             if ((inputHelper.KeyPressed(Keys.C)) && (holdKeyPressed == false))
-                SwapWithHoldTetromino();//HoldTetromino swapt de huidige tetromino met de tetromino in de hold slot
+                HoldTetromino();//HoldTetromino swapt de huidige tetromino met de tetromino in de hold slot
 
             //movementcooldown is er zodat je pijltjestoetsen ingedruk kan houden om naar links, rechts of beneden te gaan.
             movementCooldown += gameTime.ElapsedGameTime.TotalSeconds;
@@ -204,7 +204,7 @@ class GameWorld
 			gameState = GameState.GameOver;
         holdKeyPressed = false;
 	}
-    public void SwapWithHoldTetromino()
+    public void HoldTetromino()
     {
 		if (holdTetromino.Color == Color.White)
 		{
@@ -216,14 +216,15 @@ class GameWorld
 		}
 		else
 		{
-			swapTetromino = tetromino;
-			holdTetromino.SetPosition(tetromino.HorizontalIndex, tetromino.VerticalIndex);
+            //deze code swapt de tetromino en de hold piece
+            swapTetromino = tetromino;
 			tetromino = holdTetromino;
 			holdTetromino = swapTetromino;
 			swapTetromino = null;
+            tetromino.Reset();
 		}
-		holdTetromino.SetPosition(11, 13);
+        holdTetromino.Reset();//reset function om de draaiing te resetten
+		holdTetromino.SetPosition(11, 13);//positie van de hold piece
 		holdKeyPressed = true;
 	}
-
 }
