@@ -25,7 +25,7 @@ class GameWorld
         Startup
     }
 
-	Tetromino tetromino;
+	Tetromino tetromino, ghostTetromino;
     List <Tetromino> upcomingTetrominos, bagOfTetrominos, newBag;
 
     /// <summary>
@@ -70,22 +70,23 @@ class GameWorld
             {Keys.Left, new Vector2(-1, 0) },
             {Keys.Right, new Vector2(1, 0) },
             {Keys.Down, new Vector2(0, 1) },
-            {Keys.Up, new Vector2(0, -1) },
+            {Keys.Up, new Vector2(0, -1) },//deze key is voor debuggen
         };
 		textSpacing = 15;
 		upcomingTetrominos = new List<Tetromino>();
 		newBag = new List<Tetromino>();
 		bagOfTetrominos = new List<Tetromino>();
 		upcomingTetrominos.AddRange(AddBag());
-		//NewTetromino();
+        ghostTetromino = new Tetromino(Color.White);
 	}
 
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
     {
 		
-		//Dit loopt door de dictionary "direction". Als een van de knopjes in de dictionary ingedrukt wordt, geeft het de vector mee aan de Collision method
+		
 		if (gameState == GameState.Playing)
 		{
+			//Dit loopt door de dictionary "direction". Als een van de knopjes in de dictionary ingedrukt wordt, geeft het de vector mee aan de Collision method
 			foreach (Keys key in direction.Keys)
 				if ((inputHelper.KeyDown(key)) && (movementCooldown >=0.07))
 				{
@@ -96,29 +97,35 @@ class GameWorld
 					}
                     movementCooldown = 0;
 				}
+            //spatiebalk voor hard drop
 			if (inputHelper.KeyPressed(Keys.Space))
 			{
 				while (tetromino.Collision(grid.Grid, new Vector2(0, 1), tetromino.Block)) ;
 				grid.Add(tetromino.Color, tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block);
 				NewTetromino();
-			}
-            movementCooldown += gameTime.ElapsedGameTime.TotalSeconds;
-		}
-        //Dit is voor debuggen. Als je E indrukt voeg je een tetromino toe aan de grid
-        if (inputHelper.KeyPressed(Keys.E))
-        {
-            grid.Add(tetromino.Color, tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block);
-			NewTetromino();
-        }
+            }
+			//Dit is voor debuggen. Als je E indrukt voeg je een tetromino toe aan de grid
+			if (inputHelper.KeyPressed(Keys.E))
+            {
+                grid.Add(tetromino.Color, tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block);
+                NewTetromino();
+            }
 
-        if ((inputHelper.KeyPressed(Keys.Q)) || (inputHelper.KeyPressed(Keys.Z)))      
-        {
-            tetromino.Rotate(grid.Grid, true);
-        }
-		if (inputHelper.KeyPressed(Keys.X))
-		{
-			tetromino.Rotate(grid.Grid, false);
+			if ((inputHelper.KeyPressed(Keys.Q)) || (inputHelper.KeyPressed(Keys.Z)))
+			{
+				tetromino.Rotate(grid.Grid, true);
+			}
+			if (inputHelper.KeyPressed(Keys.X))
+			{
+				tetromino.Rotate(grid.Grid, false);
+			}
+            //movementcooldown is er zodat je pijltjestoetsen ingedruk kan houden om naar links, rechts of beneden te gaan.
+			movementCooldown += gameTime.ElapsedGameTime.TotalSeconds;
+            ghostTetromino.GhostUpdate(tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block, tetromino.Color);
+			while (ghostTetromino.Collision(grid.Grid, new Vector2(0, 1), ghostTetromino.Block));
+
 		}
+        
 		//Als de game in de Startup of Gameoverstate is, kan de speler spatiebalk indrukken om tetris (opnieuw) te starten.
 		if ((gameState == GameState.Startup && inputHelper.KeyPressed(Keys.Space)) || (gameState == GameState.GameOver && inputHelper.KeyPressed(Keys.Space)))
         {
@@ -148,7 +155,7 @@ class GameWorld
 
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
     {
-        spriteBatch.Begin();
+        spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
         grid.Draw(gameTime, spriteBatch);
 		//spriteBatch.DrawString(font, "Hello!", Vector2.Zero, Color.Blue);
 		textPosition.X = grid.Grid.GetLength(0) * grid.WidthEmptyCell;
@@ -162,8 +169,9 @@ class GameWorld
 		}
         if (gameState == GameState.Playing)
         {
-			tetromino.Draw(spriteBatch);
-			upcomingTetrominos[0].Draw(spriteBatch);
+			ghostTetromino.Draw(spriteBatch, 0.3f);
+			tetromino.Draw(spriteBatch, 1);
+			upcomingTetrominos[0].Draw(spriteBatch, 1);
 		}
         if (gameState == GameState.GameOver)
         {
@@ -191,6 +199,7 @@ class GameWorld
 	public void NewTetromino()
 	{
 		tetromino = upcomingTetrominos[0];
+        ghostTetromino.GhostUpdate(tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block, tetromino.Color);
 		upcomingTetrominos.RemoveAt(0);
 		tetromino.Reset();
 		if (upcomingTetrominos.Count <= 2)

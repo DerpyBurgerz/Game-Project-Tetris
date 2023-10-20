@@ -11,7 +11,7 @@ class Tetromino
 	protected bool[,] block;
 	bool[,] tempBlock;
 
-	int horizontalIndex, verticalIndex;
+	private int horizontalIndex, verticalIndex;
 	int newPositionX, newPositionY;
 	bool possiblePosition;
 	public Tetromino(Color color)
@@ -95,7 +95,7 @@ class Tetromino
 		verticalIndex = 0;
 		horizontalIndex = 0;
 	}
-	public void Draw(SpriteBatch spriteBatch)
+	public void Draw(SpriteBatch spriteBatch, float transparency)
 	{
 		for (int i = 0; i < block.GetLength(0); i++)
 		{
@@ -104,10 +104,17 @@ class Tetromino
 				if (block[i, j] == true)
 				{
 					position = new Vector2((i+horizontalIndex) * cell.Width, (j+verticalIndex) * cell.Height);
-					spriteBatch.Draw(cell, position, this.color);
+					spriteBatch.Draw(cell, position, this.color * transparency);
 				}
 			}
 		}
+	}
+	public void GhostUpdate(int horizontalIndex, int verticalIndex, bool[,] block, Color color)
+	{
+		this.horizontalIndex = horizontalIndex;
+		this.verticalIndex = verticalIndex;
+		this.block = block;
+		this.color = color;
 	}
 	public Color Color { get { return color; } }
 	public bool[,] Block { get { return block; } }
