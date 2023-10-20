@@ -52,6 +52,7 @@ class GameWorld
 	Vector2 textPosition;
 	int textSpacing;
     float elapsedTime = 0;
+    double movementCooldown = 0;
 
     public GameWorld()
     {
@@ -66,10 +67,10 @@ class GameWorld
         //In deze dictionary staan de toetsen die je in kan drukken voor de beweging van de tetromino's, en de beweging die het doet als je die toets indrukt.
         direction = new Dictionary<Keys, Vector2>()
         {
-            {Keys.A, new Vector2(-1, 0) },
-            {Keys.D, new Vector2(1, 0) },
-            {Keys.S, new Vector2(0, 1) },
-            {Keys.W, new Vector2(0, -1) },
+            {Keys.Left, new Vector2(-1, 0) },
+            {Keys.Right, new Vector2(1, 0) },
+            {Keys.Down, new Vector2(0, 1) },
+            {Keys.Up, new Vector2(0, -1) },
         };
 		textSpacing = 15;
 		upcomingTetrominos = new List<Tetromino>();
@@ -86,13 +87,14 @@ class GameWorld
 		if (gameState == GameState.Playing)
 		{
 			foreach (Keys key in direction.Keys)
-				if (inputHelper.KeyPressed(key))
+				if ((inputHelper.KeyDown(key)) && (movementCooldown >=0.07))
 				{
 					if ((tetromino.Collision(grid.Grid, direction[key], tetromino.Block) == false) && direction[key].Y == 1)
 					{
 						grid.Add(tetromino.Color, tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block);
 						NewTetromino();
 					}
+                    movementCooldown = 0;
 				}
 			if (inputHelper.KeyPressed(Keys.Space))
 			{
@@ -100,6 +102,7 @@ class GameWorld
 				grid.Add(tetromino.Color, tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block);
 				NewTetromino();
 			}
+            movementCooldown += gameTime.ElapsedGameTime.TotalSeconds;
 		}
         //Dit is voor debuggen. Als je E indrukt voeg je een tetromino toe aan de grid
         if (inputHelper.KeyPressed(Keys.E))
