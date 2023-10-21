@@ -18,6 +18,8 @@ class TetrisGrid
 	Color[,] grid;
 	bool isRowFull;
     int fullRows;
+	int score = 0;
+	
     public TetrisGrid()
     {
         emptyCell = TetrisGame.ContentManager.Load<Texture2D>("block");
@@ -69,6 +71,7 @@ class TetrisGrid
             {
                 RemoveRow(i);
                 fullRows++;
+				score++;
             }
 		}
 		return fullRows;
@@ -111,5 +114,7 @@ class TetrisGrid
     }
     public Color[,] Grid { get { return grid; } }
 	public int WidthEmptyCell { get { return emptyCell.Width; } }
+
+	public int Score {  get { return score; } }
 }
 

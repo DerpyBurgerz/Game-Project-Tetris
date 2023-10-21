@@ -163,6 +163,8 @@ class GameWorld
 			tetromino.Draw(spriteBatch, 1);
             holdTetromino.Draw(spriteBatch, 1);
 			upcomingTetrominos[0].Draw(spriteBatch, 1);
+
+            spriteBatch.DrawString(font, "Score: " + grid.Score, textPosition, Color.Black);
 		}
         if (gameState == GameState.GameOver)
         {
