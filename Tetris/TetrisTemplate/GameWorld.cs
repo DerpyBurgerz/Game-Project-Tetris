@@ -31,6 +31,9 @@ class GameWorld
     static Random random;
     
     TetrisGrid grid;
+    static Vector2 startingpointGrid;
+    static public Vector2 StartingpointGrid { get { return startingpointGrid; } }
+    int linesCleared;
     static public Color EmptyCell {  get { return Color.White; } }
     
     IDictionary<Keys, Vector2> MovementKeys;
@@ -49,6 +52,7 @@ class GameWorld
 		textSpacing = 15;//verticale ruimte tussen teksten
 
 		grid = new TetrisGrid();
+        startingpointGrid = new Vector2(TetrisGame.ScreenSize.X / 2 - TetrisGrid.Width/2 * grid.WidthEmptyCell, 0);
         gameState = GameState.Startup;
         //In deze dictionary staan de toetsen die je in kan drukken voor de beweging van de tetromino's, en de beweging die het doet als je die toets indrukt.
         MovementKeys = new Dictionary<Keys, Vector2>()
@@ -81,14 +85,14 @@ class GameWorld
 			if (inputHelper.KeyPressed(Keys.Space))
 			{
 				while (tetromino.Collision(grid.Grid, new Vector2(0, 1), tetromino.Block)) ;
-				grid.Add(tetromino.Color, tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block);
-				NewTetromino();
+				grid.AddToGrid(tetromino.Color, tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block);
+				MakeNewTetromino();
             }
 			//Dit is voor debuggen. Als je E indrukt voeg je een tetromino toe aan de grid
 			if (inputHelper.KeyPressed(Keys.E))
             {
-                grid.Add(tetromino.Color, tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block);
-                NewTetromino();
+                grid.AddToGrid(tetromino.Color, tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block);
+                MakeNewTetromino();
             }
 
             //Als Q of Z wordt ingedrukt draait de tetromino met de klok mee. ALs je X of Up indrukt draait het tegen de klok in. 
@@ -116,7 +120,9 @@ class GameWorld
     {
         if (gameState == GameState.Playing)
         {
-            grid.CheckFullRows();
+            linesCleared = grid.CheckFullRows();
+
+            //INSERT HIER CODE VOOR DE PUNTEN
 
             elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             //Iedere elapsedTime
@@ -124,8 +130,8 @@ class GameWorld
             {
                 if (tetromino.Collision(grid.Grid, new Vector2(0, 1), tetromino.Block) == false)
                 {
-                    grid.Add(tetromino.Color, tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block);
-                    NewTetromino();
+                    grid.AddToGrid(tetromino.Color, tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block);
+                    MakeNewTetromino();
                 }
                 elapsedTime = 0;
             }
@@ -142,7 +148,7 @@ class GameWorld
         spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
         grid.Draw(gameTime, spriteBatch);
 		//spriteBatch.DrawString(font, "Hello!", Vector2.Zero, Color.Blue);
-		textPosition.X = grid.Grid.GetLength(0) * grid.WidthEmptyCell;
+		textPosition.X = grid.Grid.GetLength(0) * grid.WidthEmptyCell + startingpointGrid.X;
 		textPosition.Y = 0;
 
         if (gameState == GameState.Startup)
@@ -170,7 +176,7 @@ class GameWorld
         //Leegt de wachtrij van tetrominos en hervult het. 
         upcomingTetrominos.Clear();
 		upcomingTetrominos.AddRange(AddBag());
-        NewTetromino();
+        MakeNewTetromino();
         elapsedTime = 0;
         holdKeyPressed = false;
     }
@@ -188,7 +194,7 @@ class GameWorld
         }
         return newBag;
     }
-	public void NewTetromino()
+	public void MakeNewTetromino()
 	{
 		//tetromino wordt de eerste tetromino in de wachtrij, en deze wordt uit de wachtrij gehaald
 		tetromino = upcomingTetrominos[0];			  
@@ -211,7 +217,7 @@ class GameWorld
 			if ((holdTetromino.Collision(grid.Grid, new Vector2(0, 0), holdTetromino.Block)) == true)
 			{
 				holdTetromino = tetromino;
-				NewTetromino();
+				MakeNewTetromino();
 			}
 		}
 		else
@@ -224,7 +230,7 @@ class GameWorld
             tetromino.Reset();
 		}
         holdTetromino.Reset();//reset function om de draaiing te resetten
-		holdTetromino.SetPosition(11, 13);//positie van de hold piece
+		holdTetromino.SetPosition(-5, 4);//positie van de hold piece
 		holdKeyPressed = true;
 	}
 }

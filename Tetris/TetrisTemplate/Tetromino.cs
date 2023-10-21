@@ -111,6 +111,7 @@ class Tetromino
 		verticalIndex = 0;
 		horizontalIndex = 3;
 		block = baseRotationBlock;
+		rotation = 0;
 	}
 	public void Draw(SpriteBatch spriteBatch, float transparency)
 	{
@@ -120,7 +121,7 @@ class Tetromino
 			{
 				if (block[i, j] == true)
 				{
-					position = new Vector2((i+horizontalIndex) * cell.Width, (j+verticalIndex) * cell.Height);
+					position = new Vector2((i+horizontalIndex) * cell.Width + GameWorld.StartingpointGrid.X, (j+verticalIndex) * cell.Height + GameWorld.StartingpointGrid.Y);
 					spriteBatch.Draw(cell, position, this.color * transparency);
 				}
 			}

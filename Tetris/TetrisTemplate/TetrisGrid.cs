@@ -36,7 +36,7 @@ class TetrisGrid
 			}
 		}
 	}
-	public void Add(Color color, int horizontalPosition, int verticalPosition, bool[,] tetromino)
+	public void AddToGrid(Color color, int horizontalPosition, int verticalPosition, bool[,] tetromino)
 	//De Add methode voegt een Tetromino toe aan de grid
 	{
 		for (int i = 0; i < tetromino.GetLength(0); i++)
@@ -104,7 +104,7 @@ class TetrisGrid
 		{
 			for (int j = 0;j < Height; j++)
 			{
-				position = new Vector2(i*emptyCell.Width, j*emptyCell.Height);
+				position = new Vector2(i*emptyCell.Width + GameWorld.StartingpointGrid.X, j*emptyCell.Height + GameWorld.StartingpointGrid.Y);
 				spriteBatch.Draw(emptyCell, position, grid[i,j]);
 			}
 		}
