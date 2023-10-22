@@ -9,7 +9,7 @@ class Tetromino
 	Texture2D cell;
 	Color color;
 	protected bool[,] block, baseRotationBlock;
-	bool[,] tempBlock;
+	bool[,] tempBlock, baseRotationIBlock;
 
 	private int horizontalIndex, verticalIndex;
 	int newPositionX, newPositionY;
@@ -25,6 +25,13 @@ class Tetromino
 		horizontalIndex = 11;
 		verticalIndex = 8;
 		rotation = 0;
+		baseRotationIBlock = new bool[,]
+		{
+			{false, true, false, false },
+			{false, true, false, false },
+			{false, true, false, false },
+			{false, true, false, false },
+		};//De I tetromino heeft een aparte offset table bij het draaien. Deze array is er om te kunnen bepalen wanneer de huidige tetromino een I tetromino is.
 	}
     public bool Collision(Color[,] grid, Vector2 movement, bool[,] block)
 		//De Collision method checkt of de nieuwe orientatie en positie van de tetromino mogelijk is. 
@@ -85,6 +92,16 @@ class Tetromino
 				rotation += 1;
 				block = tempBlock;
 			}
+			else if (Collision(grid, new Vector2(-1, 0), tempBlock))
+			{
+				rotation += 1;
+				block = tempBlock;
+			}
+			else if (Collision(grid, new Vector2(1, 0), tempBlock))
+			{
+				rotation += 1;
+				block = tempBlock;
+			}
 		}
 		else
 		{
@@ -97,6 +114,16 @@ class Tetromino
 				}
 			}
 			if (Collision(grid, new Vector2(0, 0), tempBlock))
+			{
+				rotation -= 1;
+				block = tempBlock;
+			}
+			else if (Collision(grid, new Vector2(-1, 0), tempBlock))
+			{
+				rotation -= 1;
+				block = tempBlock;
+			}
+			else if (Collision(grid, new Vector2(1, 0), tempBlock))
 			{
 				rotation -= 1;
 				block = tempBlock;
