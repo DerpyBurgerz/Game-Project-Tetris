@@ -56,7 +56,7 @@ class TetrisGame : Game
         // create and reset the game world
         gameWorld = new GameWorld();
 
-        //MediaPlayer.Play(TetrisGame.ContentManager.Load<Song>("waiting-music"));
+        MediaPlayer.Play(TetrisGame.ContentManager.Load<Song>("waiting-music"));
         MediaPlayer.IsRepeating = true;
     }
 
