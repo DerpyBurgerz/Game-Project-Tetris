@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using System;
+using System.Reflection.Metadata;
 
 /// <summary>
 /// A class for representing the Tetris playing grid.
@@ -26,6 +28,7 @@ class TetrisGrid
         position = Vector2.Zero;
 		grid = new Color[Width, Height];
         Clear();
+        
     }
     public void Clear()
 	//Deze methode vult de grid met empty cells
@@ -76,7 +79,8 @@ class TetrisGrid
             {
                 RemoveRow(i);
                 fullRows++;
-				totalLinesCleared++;
+                totalLinesCleared++;
+                MediaPlayer.Play(TetrisGame.ContentManager.Load<Song>("animeWow"));
             }
 		}
 		if (fullRows == 2)
