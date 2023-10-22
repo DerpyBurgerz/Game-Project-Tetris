@@ -4,13 +4,6 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
-//using TetrisTemplate;
-
-/// <summary>
-/// A class for representing the game world.
-/// This contains the grid, the falling block, and everything else that the player can see/do.
-/// </summary>
 class GameWorld
 {
     enum GameState
@@ -30,8 +23,9 @@ class GameWorld
     TetrisGrid grid;
     static Vector2 startingpointGrid;
     static public Vector2 StartingpointGrid { get { return startingpointGrid; } }
-    int linesCleared, score, level, frames;
+    int score, frames;
     int[] pointsPerLine;
+    Level level;
 
 	static public Color EmptyCell {  get { return Color.White; } }
     
@@ -39,7 +33,7 @@ class GameWorld
 	
     SpriteFont font;
 	Vector2 textPosition;
-	int textSpacing;
+    Color textColour = Color.Black;
     
     float elapsedTime = 0;
     double horizontalCooldown = 0, verticalCooldown = 0, difficulty;
@@ -56,11 +50,10 @@ class GameWorld
     public GameWorld()
     {
         random = new Random();
-        gameState = GameState.Playing;
         font = TetrisGame.ContentManager.Load<SpriteFont>("SpelFont");
-        textSpacing = 15;//verticale ruimte tussen teksten
         pointsPerLine = new int[]{0, 40, 100, 300, 1200};//An array for points per line. 
         grid = new TetrisGrid();
+        level = new Level();
         startingpointGrid = new Vector2(TetrisGame.ScreenSize.X / 2 - TetrisGrid.Width/2 * grid.WidthEmptyCell, 0);
         gameState = GameState.Startup;
         //In deze dictionary staan de toetsen die je in kan drukken voor de beweging van de tetromino's, en de beweging die het doet als je die toets indrukt.
@@ -126,17 +119,14 @@ class GameWorld
                 MakeNewTetromino();
             }
 
-            //Als Q of Z wordt ingedrukt draait de tetromino met de klok mee. ALs je X of Up indrukt draait het tegen de klok in. 
-			if ((inputHelper.KeyPressed(Keys.Q)) || (inputHelper.KeyPressed(Keys.Z)) )
+            //Als Z wordt ingedrukt draait de tetromino tegen de klok in. Als je X of Up indrukt draait het met de klok mee. 
+			if (inputHelper.KeyPressed(Keys.Z))
 				tetromino.Rotate(grid.Grid, false);
 			if ((inputHelper.KeyPressed(Keys.X))|| inputHelper.KeyPressed(Keys.Up))
 				tetromino.Rotate(grid.Grid, true);
 
             if ((inputHelper.KeyPressed(Keys.C)) && (holdKeyPressed == false))
                 HoldTetromino();//HoldTetromino swapt de huidige tetromino met de tetromino in de hold slot
-
-            //movementcooldown is er zodat je pijltjestoetsen ingedruk kan houden om naar links, rechts of beneden te gaan.
-            
 		}
         
 		//Als de game in de Startup of Gameoverstate is, kan de speler spatiebalk indrukken om tetris (opnieuw) te starten.
@@ -151,7 +141,10 @@ class GameWorld
     {
         if (gameState == GameState.Playing)
         {
-            score += pointsPerLine[grid.CheckFullRows()]*(level+1);
+            score += pointsPerLine[grid.CheckFullRows(level)]*(level.CurrentLevel+1);
+            //The score wordt berekent met de array PointsPerLine. Je krijgt 40, 100, 300 of 1200 punten voor 1, 2, 3 of 4 lijnen.
+            //De method CheckFullRows checkt voor volle rijen, haalt ze weg en returnt hoeveel volle rijen er waren
+            //Het roept ook de mthod in de Level class om te checken of het level 1 omhoog is gegaan.
 
             difficulty = 1 - (0.02 * grid.TotalLinesCleared);
             if (difficulty < 0.1) difficulty = 0.1; //om te voorkomen dat de snelheid onhoudbaar wordt 
@@ -165,7 +158,7 @@ class GameWorld
                     grid.AddToGrid(tetromino.Color, tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block);
                     MakeNewTetromino();
                 }
-                elapsedTime = 0;
+                timeSinceLastTetrominoFall = 0;
             }
             //De ghostTetromino krijg de positie, array en kleur van de tetromino in het speelveld.
             ghostTetromino.GhostUpdate(tetromino.HorizontalIndex, tetromino.VerticalIndex, tetromino.Block, tetromino.Color);
@@ -179,14 +172,14 @@ class GameWorld
     {
         spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
         grid.Draw(gameTime, spriteBatch);
-		textPosition.X = grid.Grid.GetLength(0) * grid.WidthEmptyCell + startingpointGrid.X;
+		//spriteBatch.DrawString(font, "Hello!", Vector2.Zero, Color.Blue);
+		textPosition.X = grid.Grid.GetLength(0) * grid.WidthEmptyCell + startingpointGrid.X + 5;//puts the Xposition of the text 5 pixels to the right of the grid
 		textPosition.Y = 0;
 
         if (gameState == GameState.Startup)
         {
 			spriteBatch.DrawString(font, "press Spacebar to start!", textPosition, Color.Blue);
-			textPosition.Y += textSpacing;
-			spriteBatch.DrawString(font, "yay", textPosition, Color.Blue);
+            Spacing();//spacing puts the Yposition of Texposition down by y pixels. (default is 15)
 		}
         if (gameState == GameState.Playing)
         {
@@ -216,17 +209,26 @@ class GameWorld
         }
         if (gameState == GameState.GameOver)
         {
-			spriteBatch.DrawString(font, "press Spacebar to start!", textPosition, Color.Blue);
+			spriteBatch.DrawString(font, "Game Over. press Spacebar to restart!", textPosition, textColour);
+			Spacing();
+			spriteBatch.DrawString(font, "Lines cleared: " + level.totalLines, textPosition, textColour);
+			Spacing();
+			spriteBatch.DrawString(font, "Score:" + score, textPosition, textColour);
 		}
         spriteBatch.End();
+    }
+    private void Spacing(int y = 15)
+    {
+        textPosition.Y += y;
     }
     public void Reset()
     {
 		grid.Reset();//Maakt grid leeg
+        level.Reset();
         upcomingTetrominos.Clear(); //Leegt de wachtrij van tetrominos en hervult het. 
 		upcomingTetrominos.AddRange(AddBag());
         MakeNewTetromino();
-        elapsedTime = 0;
+        timeSinceLastTetrominoFall = 0;
         holdKeyPressed = false;
         verticalCooldown = 0;
         horizontalCooldown = 0;
