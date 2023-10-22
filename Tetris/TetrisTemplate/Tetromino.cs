@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Runtime.CompilerServices;
 
 class Tetromino
 {
@@ -69,8 +67,6 @@ class Tetromino
 		}
 		return false;
 	}
-
-
 	public void Rotate(Color[,] grid, bool clockWise)
 	//de Rotate method draait de Tetromino als de Tetromino kan draaien.
 	//als clockWise is true, draait het clockwise. Als clockWise is false, draait het counterclockwise
@@ -129,9 +125,6 @@ class Tetromino
 				block = tempBlock;
 			}
 		}
-
-		
-
 	}
 	public void Reset()//Deze method zet de Tetromino in het speelveld
 	{
