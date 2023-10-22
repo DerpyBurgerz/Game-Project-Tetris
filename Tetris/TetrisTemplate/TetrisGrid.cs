@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using System;
@@ -21,14 +22,19 @@ class TetrisGrid
 	bool isRowFull;
     int fullRows;
 	int totalLinesCleared = 0;
-	
+
+	SoundEffect fullRowSound;
+    //public SoundEffect(byte[] buffer, int sampleRate, AudioChannels channels);
+    
+
     public TetrisGrid()
     {
         emptyCell = TetrisGame.ContentManager.Load<Texture2D>("block");
         position = Vector2.Zero;
 		grid = new Color[Width, Height];
         Clear();
-        
+        fullRowSound = TetrisGame.ContentManager.Load<SoundEffect>("animeWow");
+
     }
     public void Clear()
 	//Deze methode vult de grid met empty cells
@@ -80,7 +86,7 @@ class TetrisGrid
                 RemoveRow(i);
                 fullRows++;
                 totalLinesCleared++;
-                MediaPlayer.Play(TetrisGame.ContentManager.Load<Song>("animeWow"));
+				fullRowSound.Play();
             }
 		}
 		if (fullRows == 2)

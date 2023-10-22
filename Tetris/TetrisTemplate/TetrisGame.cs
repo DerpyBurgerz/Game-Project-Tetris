@@ -57,6 +57,7 @@ class TetrisGame : Game
         gameWorld = new GameWorld();
 
         //MediaPlayer.Play(TetrisGame.ContentManager.Load<Song>("waiting-music"));
+        MediaPlayer.IsRepeating = true;
     }
 
     protected override void Update(GameTime gameTime)
