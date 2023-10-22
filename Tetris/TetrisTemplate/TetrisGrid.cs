@@ -18,7 +18,7 @@ class TetrisGrid
 	Color[,] grid;
 	bool isRowFull;
     int fullRows;
-	int score = 0;
+	int totalLinesCleared = 0;
 	
     public TetrisGrid()
     {
@@ -71,15 +71,16 @@ class TetrisGrid
             {
                 RemoveRow(i);
                 fullRows++;
-				score++;
+				totalLinesCleared++;
             }
 		}
+		if (fullRows == 2)
+			fullRows = 2 ;
 		return fullRows;
 	}
 	public void RemoveRow(int y)
 	{
 	//Deze methode haalt een rij y weg
-		fullRows++;
 		for (int i = 0; i < y; i++)
 		{
 			for (int j = 0; j < grid.GetLength(0); j++)
@@ -115,6 +116,6 @@ class TetrisGrid
     public Color[,] Grid { get { return grid; } }
 	public int WidthEmptyCell { get { return emptyCell.Width; } }
 
-	public int Score {  get { return score; } }
+	public int TotalLinesCleared {  get { return totalLinesCleared; } }
 }
 

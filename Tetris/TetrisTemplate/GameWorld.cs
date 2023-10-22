@@ -33,8 +33,10 @@ class GameWorld
     TetrisGrid grid;
     static Vector2 startingpointGrid;
     static public Vector2 StartingpointGrid { get { return startingpointGrid; } }
-    int linesCleared;
-    static public Color EmptyCell {  get { return Color.White; } }
+    int linesCleared, score, level, frames;
+    int[] pointsPerLine;
+
+	static public Color EmptyCell {  get { return Color.White; } }
     
     IDictionary<Keys, Vector2> MovementKeys;
 	
@@ -43,15 +45,15 @@ class GameWorld
 	int textSpacing;
     
     float elapsedTime = 0;
-    double movementCooldown = 0;
+    double horizontalCooldown = 0, verticalCooldown = 0;
     public GameWorld()
     {
         random = new Random();
         gameState = GameState.Playing;
         font = TetrisGame.ContentManager.Load<SpriteFont>("SpelFont");
-		textSpacing = 15;//verticale ruimte tussen teksten
-
-		grid = new TetrisGrid();
+        textSpacing = 15;//verticale ruimte tussen teksten
+        pointsPerLine = new int[]{0, 40, 100, 300, 1200, 4000};//An array for points per line. 
+        grid = new TetrisGrid();
         startingpointGrid = new Vector2(TetrisGame.ScreenSize.X / 2 - TetrisGrid.Width/2 * grid.WidthEmptyCell, 0);
         gameState = GameState.Startup;
         //In deze dictionary staan de toetsen die je in kan drukken voor de beweging van de tetromino's, en de beweging die het doet als je die toets indrukt.
@@ -76,12 +78,21 @@ class GameWorld
 		{
 			//Dit loopt door de dictionary "direction". Als een van de knopjes in de dictionary ingedrukt wordt, geeft het de vector mee aan de Collision method
 			foreach (Keys key in MovementKeys.Keys)
-				if ((inputHelper.KeyDown(key)) && (movementCooldown >=0.07))
-				{
+            {
+                if ((inputHelper.KeyDown(key)) && (horizontalCooldown >= 0.08) && (MovementKeys[key].Y == 0))
+                {
                     tetromino.Collision(grid.Grid, MovementKeys[key], tetromino.Block);
-                    movementCooldown = 0;
+                    horizontalCooldown = 0;
+                }
+                else if ((inputHelper.KeyDown(key)) && (verticalCooldown >= 0.08) && (MovementKeys[key].Y > 0))
+                {
+					tetromino.Collision(grid.Grid, MovementKeys[key], tetromino.Block);
+					verticalCooldown = 0;
 				}
-            //spatiebalk voor hard drop
+			}
+			horizontalCooldown += gameTime.ElapsedGameTime.TotalSeconds;
+            verticalCooldown += gameTime.ElapsedGameTime.TotalSeconds;
+			//spatiebalk voor hard drop
 			if (inputHelper.KeyPressed(Keys.Space))
 			{
 				while (tetromino.Collision(grid.Grid, new Vector2(0, 1), tetromino.Block)) ;
@@ -105,7 +116,7 @@ class GameWorld
                 HoldTetromino();//HoldTetromino swapt de huidige tetromino met de tetromino in de hold slot
 
             //movementcooldown is er zodat je pijltjestoetsen ingedruk kan houden om naar links, rechts of beneden te gaan.
-            movementCooldown += gameTime.ElapsedGameTime.TotalSeconds;
+            
 		}
         
 		//Als de game in de Startup of Gameoverstate is, kan de speler spatiebalk indrukken om tetris (opnieuw) te starten.
@@ -120,7 +131,7 @@ class GameWorld
     {
         if (gameState == GameState.Playing)
         {
-            linesCleared = grid.CheckFullRows();
+            score += pointsPerLine[grid.CheckFullRows()]*(level+1);
 
             //INSERT HIER CODE VOOR DE PUNTEN
 
@@ -164,7 +175,9 @@ class GameWorld
             holdTetromino.Draw(spriteBatch, 1);
 			upcomingTetrominos[0].Draw(spriteBatch, 1);
 
-            spriteBatch.DrawString(font, "Score: " + grid.Score, textPosition, Color.Black);
+            spriteBatch.DrawString(font, "Lines cleared: " + grid.TotalLinesCleared, textPosition, Color.Black);
+            textPosition.Y += textSpacing;
+            spriteBatch.DrawString(font, "Score:" + score, textPosition, Color.Black);
 		}
         if (gameState == GameState.GameOver)
         {
