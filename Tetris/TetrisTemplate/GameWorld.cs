@@ -50,6 +50,9 @@ class GameWorld
     Texture2D platinum = TetrisGame.ContentManager.Load<Texture2D>("Platinum");
     Texture2D diamond = TetrisGame.ContentManager.Load<Texture2D>("Diamond");
     Vector2 rankPosition = new Vector2(600, 400);
+
+    Texture2D[] rank;
+    int rankSize;
     public GameWorld()
     {
         random = new Random();
@@ -75,6 +78,18 @@ class GameWorld
         holdTetromino = new Tetromino(Color.White);//De holdtetromino kan geswapt worden met de tetromino in het speelveld
         ghostTetromino = new Tetromino(Color.White);//De ghostTetromino is de tetromino die je onderaan het scherm ziet.
                                                     //Deze laat zien waar je tetromino landt als je een hard drop doet.
+
+        rank = new Texture2D[]
+        {
+            bronze,
+            silver,
+            gold,
+            platinum,
+            diamond,
+
+        };
+
+       
 
     }
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
@@ -139,8 +154,8 @@ class GameWorld
             score += pointsPerLine[grid.CheckFullRows()]*(level+1);
 
             //INSERT HIER CODE VOOR DE PUNTEN
-            difficulty = 1 - (0.01 * grid.TotalLinesCleared);
-            if (difficulty < 0.2) difficulty = 0.2; //om te voorkomen dat de snelheid onhoudbaar wordt 
+            difficulty = 1 - (0.02 * grid.TotalLinesCleared);
+            if (difficulty < 0.1) difficulty = 0.1; //om te voorkomen dat de snelheid onhoudbaar wordt 
             level = grid.TotalLinesCleared;
 
             elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -189,33 +204,19 @@ class GameWorld
             textPosition.Y += textSpacing;
             spriteBatch.DrawString(font, "Level:" + level, textPosition, Color.Black);
             textPosition.Y += textSpacing;
-            if (level >= 0 && level < 10)
-            {
-                spriteBatch.Draw(bronze, rankPosition, Color.White);
-            }
 
-            if (level >= 10 && level < 20)
-            {
-                spriteBatch.Draw(silver, rankPosition, Color.White);
-            }
-
-            if (level >= 20 &&  level < 30)
-            {
-                spriteBatch.Draw(gold, rankPosition, Color.White);
-            }
-
-            if (level >= 30 && level < 40)
-            {
-                spriteBatch.Draw(platinum, rankPosition, Color.White);
-            }
-
-            if (level >= 40)
+            rankSize = 10;
+            if (level >= rank.Length * rankSize - rankSize)
             {
                 spriteBatch.Draw(diamond, rankPosition, Color.White);
             }
 
-            
-		}
+            else
+            {
+                spriteBatch.Draw(rank[level / rankSize], rankPosition, Color.White);
+            }
+
+        }
         if (gameState == GameState.GameOver)
         {
 			spriteBatch.DrawString(font, "press Spacebar to start!", textPosition, Color.Blue);
