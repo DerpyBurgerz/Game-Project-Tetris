@@ -7,7 +7,7 @@ class Tetromino
 	Texture2D cell;
 	Color color;
 	protected bool[,] block, baseRotationBlock;
-	bool[,] tempBlock, baseRotationIBlock;
+	bool[,] tempBlock;
 	int[] horizontalTests;
 
 	private int horizontalIndex, verticalIndex;
@@ -22,13 +22,6 @@ class Tetromino
 		//Zodra de tetromino de huidige Tetromino wordt, wordt de Reset method aangeroepen die de tetromino in het speelveld zet.
 		horizontalIndex = 11;
 		verticalIndex = 8;
-		baseRotationIBlock = new bool[,]
-		{
-			{false, true, false, false },
-			{false, true, false, false },
-			{false, true, false, false },
-			{false, true, false, false },
-		};//De I tetromino heeft een aparte offset table bij het draaien. Deze array is er om te kunnen bepalen wanneer de huidige tetromino een I tetromino is.
 		horizontalTests = new int[] { 0, 1, -1 };
 	}
     public bool Collision(Color[,] grid, Vector2 movement, bool[,] block)
@@ -48,14 +41,10 @@ class Tetromino
 				{
 					//Deze if statement checkt of de positie waar de tetromino heen wil gaan niet buiten het speelveld ligt.
 					if ((newPositionX < 0 || newPositionX >=grid.GetLength(0)) || (newPositionY < 0 || newPositionY >= grid.GetLength(1)))
-					{
 						possiblePosition = false;
-					}
 					//Deze if statement checkt of de tetromino overlapt met een gekleurd vakje in de grid.
 					else if (grid[newPositionX, newPositionY] != GameWorld.EmptyCell)
-					{
 						possiblePosition = false;
-					}
 				}
 			}
 		}
@@ -74,28 +63,15 @@ class Tetromino
 		//source: https://stackoverflow.com/questions/646468/how-to-rotate-a-2d-array-of-integers
 		tempBlock = new bool[block.GetLength(0), block.GetLength(0)];
 		if (clockWise)
-		{
 			for (int i = (block.GetLength(0) - 1); i >= 0; --i)
-			{
 				for (int j = 0; j < block.GetLength(0); ++j)
-				{
-
 					tempBlock[block.GetLength(0) - j - 1, i] = block[i, j];
-				}
-			}
-			
-		}
-		else
-		{
-			for (int i = (block.GetLength(0) - 1); i >= 0; --i)
-			{
-				for (int j = 0; j < block.GetLength(0); ++j)
-				{
 
+		else
+			for (int i = (block.GetLength(0) - 1); i >= 0; --i)
+				for (int j = 0; j < block.GetLength(0); ++j)
 					tempBlock[j, block.GetLength(0) - 1 - i] = block[i, j];
-				}
-			}
-		}
+
 		bool turned = false;
 		foreach (int x in horizontalTests)
 			if (turned == false)
@@ -114,16 +90,12 @@ class Tetromino
 	public void Draw(SpriteBatch spriteBatch, float transparency)
 	{
 		for (int i = 0; i < block.GetLength(0); i++)
-		{
 			for (int j = 0; j < block.GetLength(1); j++)
-			{
 				if (block[i, j] == true)
 				{
 					position = new Vector2((i+horizontalIndex) * cell.Width + GameWorld.StartingpointGrid.X, (j+verticalIndex) * cell.Height + GameWorld.StartingpointGrid.Y);
 					spriteBatch.Draw(cell, position, this.color * transparency);
 				}
-			}
-		}
 	}
 	public void GhostUpdate(int horizontalIndex, int verticalIndex, bool[,] block, Color color)
 	{

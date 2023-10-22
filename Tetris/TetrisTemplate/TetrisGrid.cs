@@ -2,9 +2,6 @@
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 
-/// <summary>
-/// A class for representing the Tetris playing grid.
-/// </summary>
 class TetrisGrid
 {
     /// The sprite of a single empty cell in the grid.
@@ -37,12 +34,8 @@ class TetrisGrid
 	//Deze methode vult de grid met empty cells
 	{
 		for (int i = 0; i < Width; i++)
-		{
 			for (int j = 0; j < Height; j++)
-			{
 				grid[i, j] = GameWorld.EmptyCell;
-			}
-		}
 	}
 	public void Reset()
 	{
@@ -53,15 +46,9 @@ class TetrisGrid
 	//De Add methode voegt een Tetromino toe aan de grid
 	{
 		for (int i = 0; i < tetromino.GetLength(0); i++)
-		{
 			for (int j = 0; j < tetromino.GetLength(1); j++)
-			{
 				if (tetromino[j, i])
-				{
 					grid[j + horizontalPosition, i + verticalPosition] = color;
-				}
-			}
-		}
 	}
 	public int CheckFullRows()
 	//De CheckFullRows methode checkt of er een rij vol is, haalt deze weg en returnt het aantal weggehaalde rijen.
@@ -71,13 +58,9 @@ class TetrisGrid
 		{
 			isRowFull = true;
 			for (int j = 0; j < grid.GetLength(0); j++)
-			{
-				        
 				if (grid[j, i] == GameWorld.EmptyCell)
-				{
 					isRowFull = false;  
-				}
-			}
+
             if (isRowFull)
             {
                 RemoveRow(i);
@@ -94,21 +77,16 @@ class TetrisGrid
 	{
 	//Deze methode haalt een rij y weg
 		for (int i = 0; i < y; i++)
-		{
 			for (int j = 0; j < grid.GetLength(0); j++)
-			{
 				grid[j, y - i] = grid[j, y - i - 1];
-			}
-		}
+
 		NewRow();
 	}
 	public void NewRow()
 	//Deze methode voegt een nieuw rij toe aan de bovenkant van de grid.
     {
         for (int i = 0;  i < grid.GetLength(0); i++)
-        {
-            grid[i, 0] = GameWorld.EmptyCell;
-        }
+			grid[i, 0] = GameWorld.EmptyCell;
     }
     
 	
