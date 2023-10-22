@@ -20,7 +20,6 @@ class TetrisGrid
 	SoundEffect fullRowSound;
     //public SoundEffect(byte[] buffer, int sampleRate, AudioChannels channels);
     
-
     public TetrisGrid()
     {
         emptyCell = TetrisGame.ContentManager.Load<Texture2D>("block");
@@ -89,7 +88,6 @@ class TetrisGrid
 			grid[i, 0] = GameWorld.EmptyCell;
     }
     
-	
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
 	//De Draw method tekent de grid.
 	//Het gebruikt de Color type uit de array als filter over de emptyCell sprite om de gevulde vakjes een kleur te geven.
@@ -105,7 +103,6 @@ class TetrisGrid
     }
     public Color[,] Grid { get { return grid; } }
 	public int WidthEmptyCell { get { return emptyCell.Width; } }
-
 	public int TotalLinesCleared {  get { return totalLinesCleared; } }
 }
 

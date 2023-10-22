@@ -11,7 +11,6 @@ class L : Tetromino
 			{false, true, false},
 			{false, true, false},
 		};
-		baseRotationBlock = block;
 	}
 }
 

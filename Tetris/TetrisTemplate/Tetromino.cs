@@ -6,7 +6,7 @@ class Tetromino
 	Vector2 position;
 	Texture2D cell;
 	Color color;
-	protected bool[,] block, baseRotationBlock;
+	protected bool[,] block;
 	bool[,] tempBlock;
 	int[] horizontalTests;
 
@@ -72,6 +72,12 @@ class Tetromino
 				for (int j = 0; j < block.GetLength(0); ++j)
 					tempBlock[j, block.GetLength(0) - 1 - i] = block[i, j];
 
+		//De code hieronder checkt de collision voor meerdere situaties
+		//Het check voor gewoon de tetromino roteren
+		//het checkt voor roteren en 1 veld naar rechs schuiven
+		//en het checkt voor roteren en 1 veld naar links schuiven
+		//Dit is zodat je de meeste tetromino's ook kan draain als ze tegen de rand van de grid liggen.
+		//Bij de I tetromino werkt dit soms niet omdat deze 2 naar links of rechts moet schuiven om te kunnen draaien.
 		bool turned = false;
 		foreach (int x in horizontalTests)
 			if (turned == false)
@@ -85,7 +91,6 @@ class Tetromino
 	{
 		verticalIndex = 0;
 		horizontalIndex = 3;
-		block = baseRotationBlock;
 	}
 	public void Draw(SpriteBatch spriteBatch, float transparency)
 	{
@@ -115,4 +120,3 @@ class Tetromino
 	public int VerticalIndex { get { return verticalIndex; } }
 	public int HorizontalIndex { get { return horizontalIndex; } }
 }
-

@@ -11,7 +11,6 @@ class J : Tetromino
 			{false, true, false},
 			{true, true, false},
 		};
-		baseRotationBlock = block;
 	}
 }
 

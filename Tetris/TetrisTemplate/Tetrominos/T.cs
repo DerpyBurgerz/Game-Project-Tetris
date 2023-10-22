@@ -11,7 +11,6 @@ class T : Tetromino
 			{true, true, false},
 			{false, true, false},
 		};
-		baseRotationBlock = block;
 	}
 }
 

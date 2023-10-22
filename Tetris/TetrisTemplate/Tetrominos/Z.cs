@@ -10,7 +10,6 @@ class Z : Tetromino
 			{true, true, false},
 			{true, false, false},
 		};
-		baseRotationBlock = block;
 	}
 }
 

@@ -77,7 +77,6 @@ class GameWorld
             gold,
             platinum,
             diamond,
-
         };
     }
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
@@ -114,6 +113,7 @@ class GameWorld
                 MakeNewTetromino();
             }
             */
+
             //Als Z wordt ingedrukt draait de tetromino tegen de klok in. Als je X of Up indrukt draait het met de klok mee. 
 			if (inputHelper.KeyPressed(Keys.Z))
 				tetromino.Rotate(grid.Grid, false);
