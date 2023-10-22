@@ -8,11 +8,11 @@ class Tetromino
 	Color color;
 	protected bool[,] block, baseRotationBlock;
 	bool[,] tempBlock, baseRotationIBlock;
+	int[] horizontalTests;
 
 	private int horizontalIndex, verticalIndex;
 	int newPositionX, newPositionY;
 	bool possiblePosition;
-	int rotation;
 	public Tetromino(Color color)
 	{
 		block = new bool[,]{{ false}};//Als de subclass geen block aanmaakt krijgt het de default "false" waarde.
@@ -22,7 +22,6 @@ class Tetromino
 		//Zodra de tetromino de huidige Tetromino wordt, wordt de Reset method aangeroepen die de tetromino in het speelveld zet.
 		horizontalIndex = 11;
 		verticalIndex = 8;
-		rotation = 0;
 		baseRotationIBlock = new bool[,]
 		{
 			{false, true, false, false },
@@ -30,6 +29,7 @@ class Tetromino
 			{false, true, false, false },
 			{false, true, false, false },
 		};//De I tetromino heeft een aparte offset table bij het draaien. Deze array is er om te kunnen bepalen wanneer de huidige tetromino een I tetromino is.
+		horizontalTests = new int[] { 0, 1, -1 };
 	}
     public bool Collision(Color[,] grid, Vector2 movement, bool[,] block)
 		//De Collision method checkt of de nieuwe orientatie en positie van de tetromino mogelijk is. 
@@ -83,21 +83,7 @@ class Tetromino
 					tempBlock[block.GetLength(0) - j - 1, i] = block[i, j];
 				}
 			}
-			if (Collision(grid, new Vector2(0, 0), tempBlock))
-			{
-				rotation += 1;
-				block = tempBlock;
-			}
-			else if (Collision(grid, new Vector2(-1, 0), tempBlock))
-			{
-				rotation += 1;
-				block = tempBlock;
-			}
-			else if (Collision(grid, new Vector2(1, 0), tempBlock))
-			{
-				rotation += 1;
-				block = tempBlock;
-			}
+			
 		}
 		else
 		{
@@ -109,29 +95,21 @@ class Tetromino
 					tempBlock[j, block.GetLength(0) - 1 - i] = block[i, j];
 				}
 			}
-			if (Collision(grid, new Vector2(0, 0), tempBlock))
-			{
-				rotation -= 1;
-				block = tempBlock;
-			}
-			else if (Collision(grid, new Vector2(-1, 0), tempBlock))
-			{
-				rotation -= 1;
-				block = tempBlock;
-			}
-			else if (Collision(grid, new Vector2(1, 0), tempBlock))
-			{
-				rotation -= 1;
-				block = tempBlock;
-			}
 		}
+		bool turned = false;
+		foreach (int x in horizontalTests)
+			if (turned == false)
+				if (Collision(grid, new Vector2(x, 0), tempBlock))
+				{
+					block = tempBlock;
+					turned = true;
+				}
 	}
 	public void Reset()//Deze method zet de Tetromino in het speelveld
 	{
 		verticalIndex = 0;
 		horizontalIndex = 3;
 		block = baseRotationBlock;
-		rotation = 0;
 	}
 	public void Draw(SpriteBatch spriteBatch, float transparency)
 	{

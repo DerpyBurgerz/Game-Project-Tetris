@@ -153,13 +153,11 @@ class GameWorld
         {
             score += pointsPerLine[grid.CheckFullRows()]*(level+1);
 
-            //INSERT HIER CODE VOOR DE PUNTEN
             difficulty = 1 - (0.02 * grid.TotalLinesCleared);
             if (difficulty < 0.1) difficulty = 0.1; //om te voorkomen dat de snelheid onhoudbaar wordt 
             level = grid.TotalLinesCleared;
 
             elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            //Iedere elapsedTime
             if (elapsedTime >= difficulty && gameState == GameState.Playing)
             {
                 if (tetromino.Collision(grid.Grid, new Vector2(0, 1), tetromino.Block) == false)
@@ -181,7 +179,6 @@ class GameWorld
     {
         spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
         grid.Draw(gameTime, spriteBatch);
-		//spriteBatch.DrawString(font, "Hello!", Vector2.Zero, Color.Blue);
 		textPosition.X = grid.Grid.GetLength(0) * grid.WidthEmptyCell + startingpointGrid.X;
 		textPosition.Y = 0;
 
