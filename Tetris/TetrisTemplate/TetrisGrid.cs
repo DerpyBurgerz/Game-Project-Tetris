@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using System;
+using System.Reflection.Metadata;
 
 /// <summary>
 /// A class for representing the Tetris playing grid.
@@ -18,12 +20,15 @@ class TetrisGrid
 	Color[,] grid;
 	bool isRowFull;
     int fullRows;
+	int totalLinesCleared = 0;
+	
     public TetrisGrid()
     {
         emptyCell = TetrisGame.ContentManager.Load<Texture2D>("block");
         position = Vector2.Zero;
 		grid = new Color[Width, Height];
         Clear();
+        
     }
     public void Clear()
 	//Deze methode vult de grid met empty cells
@@ -35,6 +40,11 @@ class TetrisGrid
 				grid[i, j] = GameWorld.EmptyCell;
 			}
 		}
+	}
+	public void Reset()
+	{
+		Clear();
+		totalLinesCleared = 0;
 	}
 	public void AddToGrid(Color color, int horizontalPosition, int verticalPosition, bool[,] tetromino)
 	//De Add methode voegt een Tetromino toe aan de grid
@@ -69,14 +79,17 @@ class TetrisGrid
             {
                 RemoveRow(i);
                 fullRows++;
+                totalLinesCleared++;
+                MediaPlayer.Play(TetrisGame.ContentManager.Load<Song>("animeWow"));
             }
 		}
+		if (fullRows == 2)
+			fullRows = 2 ;
 		return fullRows;
 	}
 	public void RemoveRow(int y)
 	{
 	//Deze methode haalt een rij y weg
-		fullRows++;
 		for (int i = 0; i < y; i++)
 		{
 			for (int j = 0; j < grid.GetLength(0); j++)
@@ -111,5 +124,7 @@ class TetrisGrid
     }
     public Color[,] Grid { get { return grid; } }
 	public int WidthEmptyCell { get { return emptyCell.Width; } }
+
+	public int TotalLinesCleared {  get { return totalLinesCleared; } }
 }
 
