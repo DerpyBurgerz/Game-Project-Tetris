@@ -60,7 +60,6 @@ class Tetromino
 	//de Rotate method draait de Tetromino als de Tetromino kan draaien.
 	//als clockWise is true, draait het clockwise. Als clockWise is false, draait het counterclockwise
 	{
-		//source: https://stackoverflow.com/questions/646468/how-to-rotate-a-2d-array-of-integers
 		tempBlock = new bool[block.GetLength(0), block.GetLength(0)];
 		if (clockWise)
 			for (int i = (block.GetLength(0) - 1); i >= 0; --i)
