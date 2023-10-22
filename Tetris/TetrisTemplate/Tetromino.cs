@@ -102,19 +102,6 @@ class Tetromino
 				rotation += 1;
 				block = tempBlock;
 			}
-			else if (baseRotationBlock == baseRotationIBlock)
-			{
-				if (Collision(grid, new Vector2(2, 0), tempBlock))
-				{
-					rotation += 1;
-					block = tempBlock;
-				}
-				else if (Collision(grid, new Vector2(-2, 0), tempBlock))
-				{
-					rotation += 1;
-					block = tempBlock;
-				}	
-			}
 		}
 		else
 		{
@@ -140,19 +127,6 @@ class Tetromino
 			{
 				rotation -= 1;
 				block = tempBlock;
-			}
-			else if (baseRotationBlock == baseRotationIBlock)
-			{
-				if (Collision(grid, new Vector2(2, 0), tempBlock))
-				{
-					rotation += 1;
-					block = tempBlock;
-				}
-				else if (Collision(grid, new Vector2(-2, 0), tempBlock))
-				{
-					rotation += 1;
-					block = tempBlock;
-				}
 			}
 		}
 
