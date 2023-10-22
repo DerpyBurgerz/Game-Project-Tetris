@@ -52,7 +52,7 @@ class GameWorld
         gameState = GameState.Playing;
         font = TetrisGame.ContentManager.Load<SpriteFont>("SpelFont");
         textSpacing = 15;//verticale ruimte tussen teksten
-        pointsPerLine = new int[]{0, 40, 100, 300, 1200, 4000};//An array for points per line. 
+        pointsPerLine = new int[]{0, 40, 100, 300, 1200};//An array for points per line. 
         grid = new TetrisGrid();
         startingpointGrid = new Vector2(TetrisGame.ScreenSize.X / 2 - TetrisGrid.Width/2 * grid.WidthEmptyCell, 0);
         gameState = GameState.Startup;
@@ -187,13 +187,15 @@ class GameWorld
     }
     public void Reset()
     {
-		grid.Clear();//Maakt grid leeg
-        //Leegt de wachtrij van tetrominos en hervult het. 
-        upcomingTetrominos.Clear();
+		grid.Reset();//Maakt grid leeg
+        upcomingTetrominos.Clear(); //Leegt de wachtrij van tetrominos en hervult het. 
 		upcomingTetrominos.AddRange(AddBag());
         MakeNewTetromino();
         elapsedTime = 0;
         holdKeyPressed = false;
+        verticalCooldown = 0;
+        horizontalCooldown = 0;
+        score = 0;
     }
     public List<Tetromino> AddBag()
     {
@@ -231,6 +233,7 @@ class GameWorld
 		{
 			if ((holdTetromino.Collision(grid.Grid, new Vector2(0, 0), holdTetromino.Block)) == true)
 			{
+                //als er nog geen holdTetromino is wordt de huidige tetromino erin gezet.
 				holdTetromino = tetromino;
 				MakeNewTetromino();
 			}

@@ -38,6 +38,11 @@ class TetrisGrid
 			}
 		}
 	}
+	public void Reset()
+	{
+		Clear();
+		totalLinesCleared = 0;
+	}
 	public void AddToGrid(Color color, int horizontalPosition, int verticalPosition, bool[,] tetromino)
 	//De Add methode voegt een Tetromino toe aan de grid
 	{
