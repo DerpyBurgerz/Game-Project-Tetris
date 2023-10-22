@@ -1,12 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using System.Reflection.Metadata;
 
 //using TetrisTemplate;
 
@@ -45,7 +47,14 @@ class GameWorld
 	int textSpacing;
     
     float elapsedTime = 0;
-    double horizontalCooldown = 0, verticalCooldown = 0;
+    double horizontalCooldown = 0, verticalCooldown = 0, difficulty;
+
+    Texture2D bronze = TetrisGame.ContentManager.Load<Texture2D>("Bronze");
+    Texture2D silver = TetrisGame.ContentManager.Load<Texture2D>("Silver");
+    Texture2D gold = TetrisGame.ContentManager.Load<Texture2D>("Gold");
+    Texture2D platinum = TetrisGame.ContentManager.Load<Texture2D>("Platinum");
+    Texture2D diamond = TetrisGame.ContentManager.Load<Texture2D>("Diamond");
+    Vector2 rankPosition = new Vector2(600, 400);
     public GameWorld()
     {
         random = new Random();
@@ -71,7 +80,8 @@ class GameWorld
         holdTetromino = new Tetromino(Color.White);//De holdtetromino kan geswapt worden met de tetromino in het speelveld
         ghostTetromino = new Tetromino(Color.White);//De ghostTetromino is de tetromino die je onderaan het scherm ziet.
                                                     //Deze laat zien waar je tetromino landt als je een hard drop doet.
-	}
+
+    }
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
     {	
 		if (gameState == GameState.Playing)
@@ -134,10 +144,13 @@ class GameWorld
             score += pointsPerLine[grid.CheckFullRows()]*(level+1);
 
             //INSERT HIER CODE VOOR DE PUNTEN
+            difficulty = 1 - (0.01 * grid.TotalLinesCleared);
+            if (difficulty < 0.2) difficulty = 0.2; //om te voorkomen dat de snelheid onhoudbaar wordt 
+            level = grid.TotalLinesCleared;
 
             elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             //Iedere elapsedTime
-            if (elapsedTime >= 1 && gameState == GameState.Playing)
+            if (elapsedTime >= difficulty && gameState == GameState.Playing)
             {
                 if (tetromino.Collision(grid.Grid, new Vector2(0, 1), tetromino.Block) == false)
                 {
@@ -178,6 +191,35 @@ class GameWorld
             spriteBatch.DrawString(font, "Lines cleared: " + grid.TotalLinesCleared, textPosition, Color.Black);
             textPosition.Y += textSpacing;
             spriteBatch.DrawString(font, "Score:" + score, textPosition, Color.Black);
+            textPosition.Y += textSpacing;
+            spriteBatch.DrawString(font, "Level:" + level, textPosition, Color.Black);
+            textPosition.Y += textSpacing;
+            if (level >= 0 && level < 10)
+            {
+                spriteBatch.Draw(bronze, rankPosition, Color.White);
+            }
+
+            if (level >= 10 && level < 20)
+            {
+                spriteBatch.Draw(silver, rankPosition, Color.White);
+            }
+
+            if (level >= 20 &&  level < 30)
+            {
+                spriteBatch.Draw(gold, rankPosition, Color.White);
+            }
+
+            if (level >= 30 && level < 40)
+            {
+                spriteBatch.Draw(platinum, rankPosition, Color.White);
+            }
+
+            if (level >= 40)
+            {
+                spriteBatch.Draw(diamond, rankPosition, Color.White);
+            }
+
+            
 		}
         if (gameState == GameState.GameOver)
         {

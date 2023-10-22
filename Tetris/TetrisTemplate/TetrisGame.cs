@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 class TetrisGame : Game
 {
@@ -54,6 +55,9 @@ class TetrisGame : Game
 
         // create and reset the game world
         gameWorld = new GameWorld();
+
+        MediaPlayer.Play(TetrisGame.ContentManager.Load<Song>("waiting-music"));
+        MediaPlayer.IsRepeating = true;
     }
 
     protected override void Update(GameTime gameTime)
