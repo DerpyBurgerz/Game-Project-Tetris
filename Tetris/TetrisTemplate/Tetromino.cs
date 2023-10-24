@@ -71,15 +71,19 @@ class Tetromino
 		tempBlock = new bool[block.GetLength(0), block.GetLength(0)];
 		previosRotation = newRotation;
 		if (clockWise)
+		{
+			newRotation += 1;
 			for (int i = (block.GetLength(0) - 1); i >= 0; --i)
 				for (int j = 0; j < block.GetLength(0); ++j)
 					tempBlock[block.GetLength(0) - j - 1, i] = block[i, j];
-
+		}
 		else
+		{
+			newRotation -= 1;
 			for (int i = (block.GetLength(0) - 1); i >= 0; --i)
 				for (int j = 0; j < block.GetLength(0); ++j)
 					tempBlock[j, block.GetLength(0) - 1 - i] = block[i, j];
-
+		}
 		bool turned = false;
 		foreach (int x in horizontalTests)
 			if (turned == false)
