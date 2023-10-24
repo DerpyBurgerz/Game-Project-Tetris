@@ -12,5 +12,6 @@ class I : Tetromino
 			{false, true, false, false },
 			{false, true, false, false },
 		};
+		baseRotationBlock = block;
 	}
 }

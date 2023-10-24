@@ -10,6 +10,7 @@ class S : Tetromino
 			{true, true, false},
 			{false, true, false},
 		};
+		baseRotationBlock = block;
 	}
 }
 
