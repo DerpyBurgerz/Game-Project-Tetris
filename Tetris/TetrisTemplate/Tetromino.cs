@@ -7,8 +7,9 @@ class Tetromino
 	Texture2D cell;
 	Color color;
 	protected bool[,] block, baseRotationBlock;
-	bool[,] tempBlock;
+	bool[,] tempBlock, baseRotationIBlock;
 	int[] horizontalTests;
+	int previosRotation, newRotation;
 
 	private int horizontalIndex, verticalIndex;
 	int newPositionX, newPositionY;
@@ -23,6 +24,13 @@ class Tetromino
 		horizontalIndex = 11;
 		verticalIndex = 8;
 		horizontalTests = new int[] { 0, 1, -1 };
+		baseRotationIBlock = new bool[,]
+		{
+			{false, true, false, false },
+			{false, true, false, false },
+			{false, true, false, false },
+			{false, true, false, false },
+		};//De I tetromino heeft een aparte offset table bij het draaien. Deze array is er om te kunnen bepalen wanneer de huidige tetromino een I tetromino is.
 	}
     public bool Collision(Color[,] grid, Vector2 movement, bool[,] block)
 		//De Collision method checkt of de nieuwe orientatie en positie van de tetromino mogelijk is. 
@@ -61,6 +69,7 @@ class Tetromino
 	//als clockWise is true, draait het clockwise. Als clockWise is false, draait het counterclockwise
 	{
 		tempBlock = new bool[block.GetLength(0), block.GetLength(0)];
+		previosRotation = newRotation;
 		if (clockWise)
 			for (int i = (block.GetLength(0) - 1); i >= 0; --i)
 				for (int j = 0; j < block.GetLength(0); ++j)
@@ -85,6 +94,7 @@ class Tetromino
 		verticalIndex = 0;
 		horizontalIndex = 3;
 		block = baseRotationBlock;
+		newRotation = 0;
 	}
 	public void Draw(SpriteBatch spriteBatch, float transparency)
 	{
