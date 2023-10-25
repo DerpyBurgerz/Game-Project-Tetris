@@ -28,7 +28,7 @@ internal class SuperRotatingSystem
 			if (num == 3)
 				newTests(3, 0, new Vector2(0, 0), new Vector2(1, 0), new Vector2(-2, 0), new Vector2(1, -2), new Vector2(-2, 1));
 
-			if (num == 4)//DEZE NOG DOEN
+			if (num == 4)
 				newTests(1, 0, new Vector2(0, 0), new Vector2(2, 0), new Vector2(-1, 0), new Vector2(2, 1), new Vector2(-1, -2));
 			if (num == 5)
 				newTests(2, 1, new Vector2(0, 0), new Vector2(1, 0), new Vector2(-2, 0), new Vector2(1, -2), new Vector2(-2, 1));
@@ -62,11 +62,13 @@ internal class SuperRotatingSystem
 	{
 		this.previousRotation = previousRotation;
 		this.newRotation = newRotation;
-		testList = new List<Vector2>();
-		testList.Add(test1);
-		testList.Add(test2);
-		testList.Add(test3); 
-		testList.Add(test4);
-		testList.Add(test5);
+		testList = new List<Vector2>
+		{
+			test1,
+			test2,
+			test3,
+			test4,
+			test5
+		};
 	}
 }

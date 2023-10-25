@@ -112,14 +112,6 @@ class Tetromino
 							break;
 						}
 			}
-
-		/*foreach (int x in horizontalTests)
-			if (canTurn == false)
-				if (Collision(grid, new Vector2(x, 0), tempBlock))
-				{
-					block = tempBlock;
-					canTurn = true;
-				}*/
 	}
 	public void Reset()//Deze method zet de Tetromino in het speelveld
 	{
