@@ -9,7 +9,7 @@ class Tetromino
 	protected bool[,] block, baseRotationBlock;
 	bool[,] tempBlock, baseRotationIBlock;
 	int[] horizontalTests;
-	int previosRotation, newRotation;
+	int previosRotation, rotation, newRotation;
 
 	private int horizontalIndex, verticalIndex;
 	int newPositionX, newPositionY;
@@ -31,6 +31,7 @@ class Tetromino
 			{false, true, false, false },
 			{false, true, false, false },
 		};//De I tetromino heeft een aparte offset table bij het draaien. Deze array is er om te kunnen bepalen wanneer de huidige tetromino een I tetromino is.
+		
 	}
     public bool Collision(Color[,] grid, Vector2 movement, bool[,] block)
 		//De Collision method checkt of de nieuwe orientatie en positie van de tetromino mogelijk is. 
@@ -69,35 +70,63 @@ class Tetromino
 	//als clockWise is true, draait het clockwise. Als clockWise is false, draait het counterclockwise
 	{
 		tempBlock = new bool[block.GetLength(0), block.GetLength(0)];
-		previosRotation = newRotation;
+		previosRotation = rotation;
 		if (clockWise)
 		{
-			newRotation += 1;
+			newRotation = rotation +1;
 			for (int i = (block.GetLength(0) - 1); i >= 0; --i)
 				for (int j = 0; j < block.GetLength(0); ++j)
 					tempBlock[block.GetLength(0) - j - 1, i] = block[i, j];
 		}
 		else
 		{
-			newRotation -= 1;
+			newRotation = rotation -1;
 			for (int i = (block.GetLength(0) - 1); i >= 0; --i)
 				for (int j = 0; j < block.GetLength(0); ++j)
 					tempBlock[j, block.GetLength(0) - 1 - i] = block[i, j];
 		}
-		bool turned = false;
-		foreach (int x in horizontalTests)
-			if (turned == false)
+		//bool hasTurned = false;
+
+		previosRotation %= 4;
+		newRotation %= 4;
+		if (newRotation < 0) newRotation += 4;
+		for (int i = 0; i < 8; i++)
+			if ((GameWorld.SRSTestListOthers[i].previousRotation == previosRotation) && (GameWorld.SRSTestListOthers[i].newRotation == newRotation))
+			{
+				if (baseRotationBlock == baseRotationIBlock)
+				{
+					foreach (Vector2 testI in GameWorld.SRSTestListI[i].TestList)
+						if ((Collision(grid, testI, tempBlock)))// && (hasTurned == false))
+						{
+							block = tempBlock;
+							rotation = newRotation;
+							break;
+						}
+				}
+				else
+					foreach (Vector2 testOther in GameWorld.SRSTestListOthers[i].TestList)
+						if ((Collision(grid, testOther, tempBlock)))// && (hasTurned == false))
+						{
+							block = tempBlock;
+							rotation = newRotation;
+							break;
+						}
+			}
+
+		/*foreach (int x in horizontalTests)
+			if (canTurn == false)
 				if (Collision(grid, new Vector2(x, 0), tempBlock))
 				{
 					block = tempBlock;
-					turned = true;
-				}
+					canTurn = true;
+				}*/
 	}
 	public void Reset()//Deze method zet de Tetromino in het speelveld
 	{
 		verticalIndex = 0;
 		horizontalIndex = 3;
 		block = baseRotationBlock;
+		previosRotation = 0;
 		newRotation = 0;
 	}
 	public void Draw(SpriteBatch spriteBatch, float transparency)

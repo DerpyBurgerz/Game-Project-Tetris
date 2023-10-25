@@ -1,6 +1,4 @@
 # Game-Project-Tetris
-Sven Wijnen-9091688
-Samuel Eikelenboom-2611872
 
 Controls
 pijltjestoetsen voor links, rechts en beneden

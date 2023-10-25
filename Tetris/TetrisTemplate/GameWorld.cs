@@ -16,7 +16,10 @@ class GameWorld
 
 	Tetromino tetromino, ghostTetromino, holdTetromino, swapTetromino;
     List <Tetromino> upcomingTetrominos, bagOfTetrominos, newBag;
-    bool holdKeyPressed;
+	static List<SuperRotatingSystem> SRStestListI, SRStestListOthers;
+    public static List<SuperRotatingSystem> SRSTestListI { get { return SRStestListI; } }
+    public static List<SuperRotatingSystem> SRSTestListOthers { get { return SRStestListOthers; } }
+	bool holdKeyPressed;
     public static Random Random { get { return random; } }
     static Random random;
     
@@ -77,8 +80,13 @@ class GameWorld
             gold,
             platinum,
             diamond,
-
         };
+        SRStestListI = new List<SuperRotatingSystem>();
+        SRStestListOthers  = new List<SuperRotatingSystem>();
+        for (int i = 0; i < 8; i++)
+            SRStestListI.Add(new SuperRotatingSystem(i, true));
+        for (int i = 0; i < 8; i++)
+            SRStestListOthers.Add(new SuperRotatingSystem(i, false));
     }
     public void HandleInput(GameTime gameTime, InputHelper inputHelper)
     {	
